@@ -194,6 +194,7 @@ namespace WPF_PDF_Organizer
             if (Radiobutton_Search_In_txt.IsChecked==true) 
             {
                 Window_Search_in_Files window = new Window_Search_in_Files();
+                window.TextBox_Directory.Text = TextBox_Dir.Text;
                 window.Show();
             }
             else

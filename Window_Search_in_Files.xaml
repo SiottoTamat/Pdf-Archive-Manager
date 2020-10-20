@@ -6,16 +6,18 @@
         xmlns:local="clr-namespace:WPF_PDF_Organizer"
         mc:Ignorable="d"
         Title="Search in Files" Height="450" Width="800">
-    <Grid>
+    <Grid Background="LightGray">
         <Grid x:Name="GeneralGrid" Margin="0">
             <Button x:Name="Button_TestCreateItem" Content="Test" HorizontalAlignment="Left" Margin="47,40,0,0" VerticalAlignment="Top" Width="75" Click="Button_TestCreateItem_Click"/>
         </Grid>
-        <GroupBox x:Name="GroupBox_Items" Grid.ColumnSpan="2" Header="" Margin="0" Grid.Row="1">
+        <GroupBox x:Name="GroupBox_Items" Grid.ColumnSpan="2" Header="" Margin="0" Grid.Row="1" Background="GhostWhite">
             <ScrollViewer>
                 <StackPanel x:Name="StackPanel_Result_Search" Margin="0"/>
             </ScrollViewer>
-            
+
         </GroupBox>
+        <TextBox x:Name="TextBox_Directory" Grid.Column="1" Height="22" Margin="10,10,10,0" TextWrapping="Wrap" Text="TextBox Dir" VerticalAlignment="Top" Width="640"/>
+        <TextBox x:Name="TextBox_Search" Grid.Column="1" Margin="10,0,10,10" TextWrapping="Wrap" Text="TextBox search" VerticalAlignment="Bottom" Height="22" Width="640"/>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="5*"/>
