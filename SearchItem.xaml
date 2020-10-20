@@ -11,7 +11,7 @@
             <Label x:Name="Label_NameFile" Content="Namefile.pdf" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
         </Grid>
         <Label x:Name="Label_Page" Content="120" Grid.Column="1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
-        <RichTextBox Grid.Column="2" Margin="0" Background="WhiteSmoke" BorderBrush="LightGray">
+        <RichTextBox x:Name="RichTextBox_search" Grid.Column="2" Margin="0" Background="WhiteSmoke" BorderBrush="LightGray">
             <FlowDocument>
                 <Paragraph>
                     <Run Text="RichTextBox"/>
