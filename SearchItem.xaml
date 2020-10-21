@@ -7,13 +7,32 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="30*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
         <!--<Grid Margin="0,0,0,0" Grid.ColumnSpan="2">-->
-            <Rectangle Stroke="#FFBBBBBB" Margin="0" Grid.ColumnSpan="2"/>
-            <Button x:Name="Button_Namefile"  HorizontalAlignment="Center" Margin="0" Width="120" VerticalAlignment="Center" Click="Button_Namefile_Click">
+        <Rectangle Stroke="#FFBBBBBB" Margin="0" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+
+            </Grid.RowDefinitions>
+            
+            <Button x:Name="Button_Namefile" Grid.Row="0" HorizontalAlignment="Center" Margin="0" Width="120" VerticalAlignment="Center" Click="Button_Namefile_Click">
                 <TextBlock x:Name="Button_Namefile_TextBlock" Text="Click me if you want to see something cool.  In fact, click as many times as you like."
                TextWrapping="Wrap"/>
             </Button>
-            
+            <Button x:Name="Button_Namefile_Pdf" Grid.Row="1" HorizontalAlignment="Center" Margin="0" Width="120" VerticalAlignment="Center" Click="Button_Namefile_Pdf_Click">
+                <TextBlock x:Name="Button_Namefile_TextBlock_pdf" Text="Click me if you want to see something cool.  In fact, click as many times as you like."
+               TextWrapping="Wrap"/>
+            </Button>
+        </Grid>
         <!--</Grid>-->
         <Label x:Name="Label_Page" Content="120" Grid.Column="1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
         <RichTextBox x:Name="RichTextBox_search" Grid.Column="2" Margin="0" Background="WhiteSmoke" BorderBrush="LightGray">
@@ -23,14 +42,7 @@
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="30*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
+
 
     </Grid>
 </UserControl>

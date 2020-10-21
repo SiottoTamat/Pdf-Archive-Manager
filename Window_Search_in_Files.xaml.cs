@@ -54,10 +54,26 @@ namespace WPF_PDF_Organizer
                             if (post_string.Length > 200) { post_string = post_string.Substring(0, 200); }
 
                             SearchItem item = new SearchItem();
-
+                            item.file = file;
                             
                             TextBlock buttonTextBlock =(TextBlock)item.Button_Namefile.FindName("Button_Namefile_TextBlock");
+                            TextBlock buttonTextBlockPdf = (TextBlock)item.Button_Namefile.FindName("Button_Namefile_TextBlock_pdf");
                             buttonTextBlock.Text = file.Name;
+                            string pdfFullFileName = (file.FullName).Replace(".txt", ".pdf");
+                            if (File.Exists(pdfFullFileName))
+                            {
+                                string pdfFileName = (file.Name).Replace(".txt", ".pdf");
+                                buttonTextBlockPdf.Text = pdfFileName;
+                            }
+                            else
+                            {
+                                buttonTextBlockPdf.Text = "No pdf version of this file.";
+                            }
+
+
+
+
+
                             item.Label_Page.Content = "Page "+(i+1).ToString();
 
 

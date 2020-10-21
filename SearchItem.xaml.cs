@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace WPF_PDF_Organizer
     /// </summary>
     public partial class SearchItem : UserControl
     {
+        public FileInfo file;
         public SearchItem()
         {
             InitializeComponent();
@@ -27,8 +29,20 @@ namespace WPF_PDF_Organizer
 
         private void Button_Namefile_Click(object sender, RoutedEventArgs e)
         {
-            string dir = "";
-            string name = "";
+            if (File.Exists(file.FullName))
+            {
+                System.Diagnostics.Process.Start(file.FullName);
+            }
+        }
+
+        private void Button_Namefile_Pdf_Click(object sender, RoutedEventArgs e)
+        {
+
+            string pdfFileName = (file.FullName).Replace(".txt", ".pdf");
+            if (File.Exists(pdfFileName))
+            {
+                System.Diagnostics.Process.Start(pdfFileName);
+            }
         }
     }
 }
