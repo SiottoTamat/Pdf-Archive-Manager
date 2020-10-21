@@ -426,7 +426,7 @@ namespace WPF_PDF_Organizer
                     {
                         FileInfo file = new FileInfo(filenamePath);
                         Paragraph paragraph_title = new Paragraph();
-                        paragraph_title.Inlines.Add(new Run(file.Name));
+                        paragraph_title.Inlines.Add(new Run(file.Name) { FontWeight = FontWeights.Bold });
                         doc.Blocks.InsertBefore(doc.Blocks.FirstBlock, paragraph_title);
                     }
                     else
