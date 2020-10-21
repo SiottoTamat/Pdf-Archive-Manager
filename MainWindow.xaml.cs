@@ -461,7 +461,7 @@ namespace WPF_PDF_Organizer
 
 
         }
-        private void Button_Extract_All_Text_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Extract_All_Text_Click(object sender, RoutedEventArgs e)
         {
 
             Task.Factory.StartNew(() =>
@@ -548,12 +548,7 @@ namespace WPF_PDF_Organizer
                 ListDirectory(Tree_View, TextBox_Dir.Text);
             }
         }
-        private void Button_Extract_Comments_and_Highlights_Click(object sender, RoutedEventArgs e)
-        {
-            ListView_Item item = (ListView_Item)List_View.SelectedItem;
-            Get_Highlighted_Text(item.Path);
-        }
-
+        
         private void Menu_Exit_Click(object sender, RoutedEventArgs e)
         {
 
@@ -579,10 +574,18 @@ namespace WPF_PDF_Organizer
         {
             Make_search();
         }
+
+        private void MenuItem_Extract_Comments_and_Highlights_Click(object sender, RoutedEventArgs e)
+        {
+            ListView_Item item = (ListView_Item)List_View.SelectedItem;
+            Get_Highlighted_Text(item.Path);
+        }
         private void Button_Search_In_Files_Click(object sender, RoutedEventArgs e)
         {
             Make_search();
         }
+
+
         #endregion
 
 
@@ -639,8 +642,10 @@ namespace WPF_PDF_Organizer
 
 
 
+
+
         #endregion
 
-       
+        
     }
 }

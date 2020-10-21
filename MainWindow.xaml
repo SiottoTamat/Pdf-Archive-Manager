@@ -15,7 +15,7 @@
             <MenuItem Header="_Tools">
                 <MenuItem Header="Extract Comments"/>
                 <MenuItem Header="Extract Highlights"/>
-                <MenuItem Header="Extract Comments and Highlights"/>
+                <MenuItem Header="Extract Comments and Highlights" Click="MenuItem_Extract_Comments_and_Highlights_Click"/>
                 <MenuItem Header="Extract All Text"/>
                 <MenuItem Header="Check if pdf files have txt version" Click="MenuItem_Check_if_pdf_has_txt_Click"/>
                 <MenuItem Header="Search in the text files" Click="MenuItem_Search_in_text_files_Click"/>
@@ -48,7 +48,7 @@
                             <Setter.Value>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Name="img" Width="13" Height="16" Source="Dir_ico.png" Stretch="Uniform"/>
+                                        <Image Name="img" Width="13" Height="16" Source="Images/Dir_ico.png" Stretch="Uniform" Margin="1"/>
                                         <TextBlock Text="{Binding}" Margin="5,0" />
                                     </StackPanel>
                                 </DataTemplate>
@@ -121,9 +121,6 @@
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="Button_Extract_Comments_and_Highlights" Content="Extract Comments and Highlights" Margin="0" Click="Button_Extract_Comments_and_Highlights_Click"/>
-                    <Button x:Name="Button_Extract_Hilighted_Text" Content="Extract Highlighted Text" Grid.Column="3" Margin="0,0,1,0"/>
-                    <Button x:Name="Button_Extract_All_Text" Content="Extract All Text" Margin="0" Grid.Row="2" Click="Button_Extract_All_Text_Click"/>
                     <Label x:Name="Label_Info_Total_N_Files" Content="" Margin="0" Grid.Row="3"/>
                     <Label x:Name="Label_InfoCommands" Content="" Margin="0" Grid.Row="4" Grid.ColumnSpan="3"/>
                 </Grid>

@@ -96,6 +96,9 @@
     <Compile Include="SearchItem.xaml.cs">
       <DependentUpon>SearchItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Window_Extract_text.xaml.cs">
+      <DependentUpon>Window_Extract_text.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window_Search_in_Files.xaml.cs">
       <DependentUpon>Window_Search_in_Files.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SearchItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_Extract_text.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,7 +155,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Dir_ico.png" />
+    <Resource Include="Images\Dir_ico.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
