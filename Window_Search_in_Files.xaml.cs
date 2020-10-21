@@ -88,6 +88,7 @@ namespace WPF_PDF_Organizer
                             StackPanel_Result_Search.Children.Add(item);
                         }
                     }
+                    Label_Nfinds.Content = StackPanel_Result_Search.Children.Count;
                     
                     
                 }
