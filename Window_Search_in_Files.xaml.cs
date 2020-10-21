@@ -26,7 +26,7 @@ namespace WPF_PDF_Organizer
             InitializeComponent();
         }
         #region Tools
-    List<MainWindow.FoundItem> Search_In_Text(string folder, string searchstring, bool subdir=false)
+    public void Search_In_Text(string folder, string searchstring, bool subdir=false)
         {
             StackPanel_Result_Search.Children.Clear();
     foreach (string filename in Directory.GetFiles(folder))
@@ -94,7 +94,7 @@ namespace WPF_PDF_Organizer
                 }
                 
             }
-            return null;
+            //return null;
         }
         string[] Split_Pages(string text)
         {
@@ -106,13 +106,13 @@ namespace WPF_PDF_Organizer
 
 
         #region ButtonsAndClicks
-        private void Button_TestCreateItem_Click(object sender, RoutedEventArgs e)
+        public void Button_TestCreateItem_Click(object sender, RoutedEventArgs e)
         {
 
             SearchItem item = new SearchItem();
             //GroupBox_Items.Content = item;
             //StackPanel_Result_Search.Children.Add(item);
-            List<MainWindow.FoundItem> list = Search_In_Text(TextBox_Directory.Text, TextBox_Search.Text);
+            Search_In_Text(TextBox_Directory.Text, TextBox_Search.Text);
         }
         #endregion
     }

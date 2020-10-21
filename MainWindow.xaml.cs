@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-
+//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -30,8 +30,11 @@ namespace WPF_PDF_Organizer
     /// </summary>
     public partial class MainWindow : Window
     {
+        //ImageList imageList = new ImageList();
         public MainWindow()
         {
+            
+           // imageList.Images.Add()
             InitializeComponent();
             TextBox_Dir.Text = "D:\\Google Drive\\@_Work\\@_Research\\@_Sources";
             ListDirectory(Tree_View, TextBox_Dir.Text);
@@ -197,44 +200,7 @@ namespace WPF_PDF_Organizer
         {
 
         }
-        private void Button_Search_Click(object sender, RoutedEventArgs e)
-        {
-            if (Radiobutton_Search_In_txt.IsChecked==true) 
-            {
-                Window_Search_in_Files window = new Window_Search_in_Files();
-                window.TextBox_Directory.Text = TextBox_Dir.Text;
-                window.Show();
-            }
-            else
-            {
-                string searchString = TextBox_SearchBar.Text;
-                List<string> files = new List<string>();
-                try
-                {
-                    foreach (string d in Directory.GetDirectories(TextBox_Dir.Text))
-                    {
-                        foreach (string f in Directory.GetFiles(d, "*" + searchString + "*"))
-                        {
-                            files.Add(f);
-                        }
-
-                    }
-                }
-                catch (System.Exception excpt)
-                {
-                    Console.WriteLine(excpt.Message);
-                }
-
-                List_View.Items.Clear();
-                foreach (string path in files)
-                {
-                    FileInfo file = new FileInfo(path);
-                    Add_File_To_ListView(file);
-                }
-            }
-            
-
-        }
+        
         private void List_View_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ListView_Item item = ((ListView)sender).SelectedItem as ListView_Item;
@@ -452,9 +418,49 @@ namespace WPF_PDF_Organizer
 
         }
 
+        private void Make_search()
+        {
+            Window_Search_in_Files window = new Window_Search_in_Files();
+            window.TextBox_Directory.Text = TextBox_Dir.Text;
+            window.Show();
+            window.TextBox_Search.Text = TextBox_SearchBar.Text;
+            window.Search_In_Text(window.TextBox_Directory.Text, window.TextBox_Search.Text);
+        }
         #endregion
 
         #region Buttons and Clicks
+        private void Button_Search_Click(object sender, RoutedEventArgs e)
+        {
+            
+            
+                string searchString = TextBox_SearchBar.Text;
+                List<string> files = new List<string>();
+                try
+                {
+                    foreach (string d in Directory.GetDirectories(TextBox_Dir.Text))
+                    {
+                        foreach (string f in Directory.GetFiles(d, "*" + searchString + "*"))
+                        {
+                            files.Add(f);
+                        }
+
+                    }
+                }
+                catch (System.Exception excpt)
+                {
+                    Console.WriteLine(excpt.Message);
+                }
+
+                List_View.Items.Clear();
+                foreach (string path in files)
+                {
+                    FileInfo file = new FileInfo(path);
+                    Add_File_To_ListView(file);
+                }
+            
+
+
+        }
         private void Button_Extract_All_Text_Click(object sender, RoutedEventArgs e)
         {
 
@@ -568,11 +574,20 @@ namespace WPF_PDF_Organizer
                 }
             }
         }
+
+        private void MenuItem_Search_in_text_files_Click(object sender, RoutedEventArgs e)
+        {
+            Make_search();
+        }
+        private void Button_Search_In_Files_Click(object sender, RoutedEventArgs e)
+        {
+            Make_search();
+        }
         #endregion
 
 
         #region Classes Definitions
-
+        
         public class ListView_Item
         {
             public string Name { get; set; }
@@ -621,8 +636,11 @@ namespace WPF_PDF_Organizer
             public List<FoundItem> Items { get; set; }
         }
 
-       
+
+
 
         #endregion
+
+       
     }
 }

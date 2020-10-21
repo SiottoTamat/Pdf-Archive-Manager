@@ -18,98 +18,116 @@
                 <MenuItem Header="Extract Comments and Highlights"/>
                 <MenuItem Header="Extract All Text"/>
                 <MenuItem Header="Check if pdf files have txt version" Click="MenuItem_Check_if_pdf_has_txt_Click"/>
+                <MenuItem Header="Search in the text files" Click="MenuItem_Search_in_text_files_Click"/>
             </MenuItem>
             <MenuItem Header="Database"/>
             <MenuItem Header="_Zotero">
                 <MenuItem Header="Load CSV Zotero Database"/>
-                
+
             </MenuItem>
         </Menu>
 
         <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="52*"/>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="108*"/>
+                <ColumnDefinition Width="508*"/>
+                <ColumnDefinition Width="339*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="4*"/>
-        </Grid.RowDefinitions>
-        <GroupBox x:Name="Tree_View_Group" Header="Tree View" Grid.Column="0" Grid.Row="1">
-            <TreeView x:Name="Tree_View" Margin="2,10,0,0" SelectedItemChanged="Tree_View_SelectedItemChanged" />
-        </GroupBox>
-        <GroupBox x:Name="ListView_groupbox" Header="ListView" Grid.Column="1" Grid.Row="1" SizeChanged="ListView_groupbox_SizeChanged">
-            <ListView x:Name="List_View" Margin="0,10,0,0" SizeChanged="List_View_SizeChanged" SelectionChanged="List_View_SelectionChanged" MouseDoubleClick="List_View_MouseDoubleClick">
-                    
-                <ListView.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <GroupBox x:Name="Tree_View_Group" Header="Tree View" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+                <TreeView x:Name="Tree_View" Margin="2,10,0,0" SelectedItemChanged="Tree_View_SelectedItemChanged">
+                    <TreeView.Resources>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="HeaderTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Name="img" Width="13" Height="16" Source="Dir_ico.png" Stretch="Uniform"/>
+                                        <TextBlock Text="{Binding}" Margin="5,0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    </TreeView.Resources>
+                </TreeView>
+            </GroupBox>
+            <GroupBox x:Name="ListView_groupbox" Header="ListView" Grid.Column="3" Grid.Row="1" SizeChanged="ListView_groupbox_SizeChanged">
+                <ListView x:Name="List_View" Margin="0,10,0,0" SizeChanged="List_View_SizeChanged" SelectionChanged="List_View_SelectionChanged" MouseDoubleClick="List_View_MouseDoubleClick">
+
+                    <ListView.Resources>
                         <Style TargetType="{x:Type ListViewItem}">
                             <Style.Triggers>
-                            <DataTrigger Binding="{Binding Type}" Value=".pdf">
-                                <Setter Property="Background" Value="#7FDC143C"/>
-                            </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value=".pdf">
+                                    <Setter Property="Background" Value="#7FDC143C"/>
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                        
-                </ListView.Resources>
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Type" Width="40" DisplayMemberBinding="{Binding Type}">
+
+                    </ListView.Resources>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding Name}"/>
+                            <GridViewColumn Header="Type" Width="40" DisplayMemberBinding="{Binding Type}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Background="{Binding BackgroundColor}"
                                                    Text=".pdf"
                                                    
                                                    />
-                                        
+
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
 
                             </GridViewColumn>
-                        <GridViewColumn Header="OCR" Width="40" DisplayMemberBinding="{Binding MessageOCR}"/>
+                            <GridViewColumn Header="OCR" Width="40" DisplayMemberBinding="{Binding MessageOCR}"/>
                         </GridView>
-                </ListView.View>
-            </ListView>
-        </GroupBox>
-        <!--<Grid x:Name="General_Grid" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+            <!--<Grid x:Name="General_Grid" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
             
         -->
-        <GroupBox x:Name="Metadata_Groupbox" Grid.Column="2" Header="Info" Grid.Row="1">
-            <ScrollViewer>
-                <TextBlock x:Name="Info_Textblock" TextWrapping="Wrap" Text="TextBlock" Margin="0,0,0,0" Background="#FFF3F3F3" MinHeight="4"/>
-            </ScrollViewer>
-        </GroupBox>
-        <TextBox x:Name="TextBox_SearchBar" Grid.Column="1" HorizontalAlignment="Left" Margin="10,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="488" Height="24"/>
-        <Button x:Name="Button_Search" Content="Search" HorizontalAlignment="Left" Height="24" Margin="107,107,0,0" VerticalAlignment="Top" Width="52" Click="Button_Search_Click" RenderTransformOrigin="-1.173,0.083"/>
-        <GroupBox x:Name="GroupBox_Directory" Grid.Column="1" Header="Archive Directory" HorizontalAlignment="Left" Height="46" Margin="10,10,0,0" VerticalAlignment="Top" Width="488">
-            <TextBox x:Name="TextBox_Dir" Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" Width="468" Margin="0" MouseDoubleClick="TextBox_Dir_MouseDoubleClick"/>
+            <GroupBox x:Name="Metadata_Groupbox" Grid.Column="4" Header="Info" Grid.Row="1">
+                <ScrollViewer>
+                    <TextBlock x:Name="Info_Textblock" TextWrapping="Wrap" Margin="0,0,0,0" Background="#FFF3F3F3" MinHeight="4"/>
+                </ScrollViewer>
+            </GroupBox>
+            <TextBox x:Name="TextBox_SearchBar" Grid.Column="3" HorizontalAlignment="Left" Margin="10,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="488" Height="24"/>
+            <Button x:Name="Button_Search_In_Files" Grid.ColumnSpan="3" Content="Find in Files" HorizontalAlignment="Left" Height="23" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="69" Click="Button_Search_In_Files_Click"/>
+            <Button x:Name="Button_Search" Content="Find Files" HorizontalAlignment="Right" Height="24" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="Button_Search_Click" RenderTransformOrigin="-1.173,0.083" Grid.Column="2"/>
+            <GroupBox x:Name="GroupBox_Directory" Grid.Column="3" Header="Archive Directory" HorizontalAlignment="Left" Height="46" Margin="10,10,0,0" VerticalAlignment="Top" Width="488">
+                <TextBox x:Name="TextBox_Dir" Grid.Column="1" Grid.Row="0" TextWrapping="Wrap" Width="468" Margin="0" MouseDoubleClick="TextBox_Dir_MouseDoubleClick"/>
 
-        </GroupBox>
-        <GroupBox x:Name="GroupBox_pdf_commands" Grid.Column="2" Header="Pdf Commands" HorizontalAlignment="Left" Height="137" Margin="10,0,0,0" VerticalAlignment="Top" Width="319">
-            <Grid Margin="5" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="12*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="12*"/>
+            </GroupBox>
+            <GroupBox x:Name="GroupBox_pdf_commands" Grid.Column="4" Header="Pdf Commands" HorizontalAlignment="Left" Height="137" Margin="10,0,0,0" VerticalAlignment="Top" Width="319">
+                <Grid Margin="5" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="12*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="12*"/>
 
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="2*"/>
-                </Grid.RowDefinitions>
-                <Button x:Name="Button_Extract_Comments_and_Highlights" Content="Extract Comments and Highlights" Margin="0" Click="Button_Extract_Comments_and_Highlights_Click"/>
-                <Button x:Name="Button_Extract_Hilighted_Text" Content="Extract Highlighted Text" Grid.Column="3" Margin="0,0,1,0"/>
-                <Button x:Name="Button_Extract_All_Text" Content="Extract All Text" Margin="0" Grid.Row="2" Click="Button_Extract_All_Text_Click"/>
-                <Label x:Name="Label_Info_Total_N_Files" Content="" Margin="0" Grid.Row="3"/>
-                <Label x:Name="Label_InfoCommands" Content="" Margin="0" Grid.Row="4" Grid.ColumnSpan="3"/>
-            </Grid>
-        </GroupBox>
-            <RadioButton x:Name="Radiobutton_Search_In_txt" Content="Search in txt" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="Button_Extract_Comments_and_Highlights" Content="Extract Comments and Highlights" Margin="0" Click="Button_Extract_Comments_and_Highlights_Click"/>
+                    <Button x:Name="Button_Extract_Hilighted_Text" Content="Extract Highlighted Text" Grid.Column="3" Margin="0,0,1,0"/>
+                    <Button x:Name="Button_Extract_All_Text" Content="Extract All Text" Margin="0" Grid.Row="2" Click="Button_Extract_All_Text_Click"/>
+                    <Label x:Name="Label_Info_Total_N_Files" Content="" Margin="0" Grid.Row="3"/>
+                    <Label x:Name="Label_InfoCommands" Content="" Margin="0" Grid.Row="4" Grid.ColumnSpan="3"/>
+                </Grid>
+            </GroupBox>
 
 
         </Grid>
