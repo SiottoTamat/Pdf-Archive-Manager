@@ -24,5 +24,11 @@ namespace WPF_PDF_Organizer
         {
             InitializeComponent();
         }
+
+        private void Button_Namefile_Click(object sender, RoutedEventArgs e)
+        {
+            string dir = "";
+            string name = "";
+        }
     }
 }

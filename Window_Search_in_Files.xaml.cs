@@ -38,35 +38,44 @@ namespace WPF_PDF_Organizer
 
                     string text = System.IO.File.ReadAllText(filename);
                     string[] pages = Split_Pages(text);
-                    Regex rgx = new Regex(searchstring);
+                    Regex rgx = new Regex(searchstring, RegexOptions.IgnoreCase);
+                    
                     for (int i=0; i<pages.Length; i++)
                     {
                         //MessageBox.Show(pages[i]);
-                        
+
                         foreach (Match m in rgx.Matches(pages[i]))
                         {
-                            int max, min;
-                            if(m.Index - 120 < 0) { min = 0; } else { min = m.Index - 120; }
-                            if(m.Index + 120> pages[i].Length) { max = pages[i].Length-m.Index; } else { max = 240; }
-                            string area = pages[i].Substring(min, max);
-                            MessageBox.Show($"In {file.Name} at page {i}: found '{m.Value}' at position {m.Index}.{Environment.NewLine}...{area}...");
+                            
+                            string pre_string = pages[i].Substring(0, m.Index);
+                            string post_string = pages[i].Substring(m.Index + m.Length);
+
+                            if (pre_string.Length > 200) { pre_string = pre_string.Substring(pre_string.Length - 200); } else { }
+                            if (post_string.Length > 200) { post_string = post_string.Substring(0, 200); }
+
                             SearchItem item = new SearchItem();
-                            item.Label_NameFile.Content = file.Name;
-                            item.Label_Page.Content = i.ToString();
-                            item.RichTextBox_search.Document.Blocks.Add( new Paragraph(new Run($"...{area}...")));
+
+                            
+                            TextBlock buttonTextBlock =(TextBlock)item.Button_Namefile.FindName("Button_Namefile_TextBlock");
+                            buttonTextBlock.Text = file.Name;
+                            item.Label_Page.Content = "Page "+(i+1).ToString();
+
+
+                            Paragraph paragraph = new Paragraph();
+                            paragraph.Inlines.Add("...");
+                            paragraph.Inlines.Add(pre_string);
+                            paragraph.Inlines.Add(new Run(m.Value) { FontWeight = FontWeights.Bold, Background = Brushes.Yellow }) ;
+                            paragraph.Inlines.Add(post_string);
+                            paragraph.Inlines.Add("...");
+                            item.RichTextBox_search.Document.Blocks.Clear();
+                            item.RichTextBox_search.Document.Blocks.Add(paragraph);
                             StackPanel_Result_Search.Children.Add(item);
                         }
                     }
                     
                     
                 }
-                /*Match m = Regex.Match(text, searchstring, RegexOptions.IgnoreCase);
-                //if (m.Success)
-                {
-
-                }
-                    MessageBox.Show($"Found '{m.Value}' at position {m.Index}.");
-                }*/
+                
             }
             return null;
         }

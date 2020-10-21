@@ -83,25 +83,33 @@ namespace WPF_PDF_Organizer
 
                 }
                 //populate OCR column
-                Task.Factory.StartNew(()=>{
-                    for (int i = 0; i < List_View.Items.Count; i++)
+                
+                    Task.Factory.StartNew(() =>
                     {
-                        FileInfo file = new FileInfo(((ListView_Item)List_View.Items[i]).Path);
-                        if (file.Extension == ".pdf")
+                        try
                         {
-                            if (Find_fonts(file.FullName) != null && Find_fonts(file.FullName).Count > 0)
+                            for (int i = 0; i < List_View.Items.Count; i++)
                             {
-                                ((ListView_Item)List_View.Items[i]).OCR = true;
-                                Dispatcher.BeginInvoke(new Action(() =>
+                                FileInfo file = new FileInfo(((ListView_Item)List_View.Items[i]).Path);
+                                if (file.Extension == ".pdf")
                                 {
-                                    List_View.Items.Refresh();
-                                }));
+                                    if (Find_fonts(file.FullName) != null && Find_fonts(file.FullName).Count > 0)
+                                    {
+                                        ((ListView_Item)List_View.Items[i]).OCR = true;
+                                        Dispatcher.BeginInvoke(new Action(() =>
+                                        {
+                                            List_View.Items.Refresh();
+                                        }));
+                                    }
+
+                                }
                             }
                         }
-                    }
+                        catch { }
 
 
-                });
+                    });
+                
                 
 
             }
