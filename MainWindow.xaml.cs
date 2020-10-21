@@ -355,51 +355,61 @@ namespace WPF_PDF_Organizer
                 }
             }
         }
-        public void Get_Highlighted_Text(string filenamePath)
+        public FlowDocument Get_Highlighted_Text(string filenamePath)
         {
-
-
+            
+            
+            //paragraph.Inlines.Add("");
+            FlowDocument doc = new FlowDocument();
+            //doc.Blocks.Add(paragraph);
             int pageTo;
-
+            bool hasAnnot=false;
             try
             {
                 using (PdfReader reader = new PdfReader(filenamePath))
                 {
                     PdfDocument pdfDoc = new PdfDocument(reader);
                     pageTo = pdfDoc.GetNumberOfPages();
-                    string annot_string = "";
+                    //string annot_string = "";
                     for (int i = 1; i <= pageTo; i++)
                     {
-
+                        
 
                         PdfPage page = pdfDoc.GetPage(i);
                         IList<iText.Kernel.Pdf.Annot.PdfAnnotation> annots = page.GetAnnotations();
 
                         if (annots.Count > 0)
                         {
-                            annot_string += $"------- Page: {i.ToString()}-------{Environment.NewLine}";
-                            string pageN = "Page " + i.ToString() + ".";
-
+                            hasAnnot = true;
+                            Paragraph paragraph = new Paragraph();
+                            //annot_string += $"------- Page: {i.ToString()}-------{Environment.NewLine}";
+                            //string pageN = "Page " + i.ToString() + ".";
+                            paragraph.Inlines.Clear();
+                            paragraph.Inlines.Add("------- Page:");
+                            paragraph.Inlines.Add($"{i.ToString()}");
+                            paragraph.Inlines.Add($"-------{Environment.NewLine}");
+                            doc.Blocks.Add(paragraph);
 
                             foreach (iText.Kernel.Pdf.Annot.PdfAnnotation annot in annots)
 
                             {
-
+                                Paragraph paragraph_annot = new Paragraph();
                                 //Get Annotation from PDF File
                                 PdfString annot_Text = annot.GetContents();
                                 PdfName subType = annot.GetSubtype();
                                 if (annot_Text != null)
                                 {
-                                    annot_string += $"{subType.GetValue()}: {annot_Text.ToUnicodeString()}{Environment.NewLine}";
-
+                                    paragraph_annot.Inlines.Add(new Run($"{subType.GetValue()}"){ FontWeight = FontWeights.Bold});
+                                    paragraph_annot.Inlines.Add($":{Environment.NewLine}");
+                                    paragraph_annot.Inlines.Add($"{annot_Text.ToUnicodeString()}{Environment.NewLine}");
+                                    //annot_string += $"{subType.GetValue()}: {annot_Text.ToUnicodeString()}{Environment.NewLine}";
+                                    doc.Blocks.Add(paragraph_annot);
                                 }
 
 
                             }
-
-
-
-
+                            
+                            
 
 
                         }
@@ -407,7 +417,22 @@ namespace WPF_PDF_Organizer
 
 
                     }
-                    MessageBox.Show(annot_string);
+                    if (hasAnnot)
+                    {
+                        FileInfo file = new FileInfo(filenamePath);
+                        Paragraph paragraph_title = new Paragraph();
+                        paragraph_title.Inlines.Add(new Run(file.Name));
+                        doc.Blocks.InsertBefore(doc.Blocks.FirstBlock, paragraph_title);
+                    }
+                    else
+                    {
+                        FileInfo file = new FileInfo(filenamePath);
+                        Paragraph paragraph_title = new Paragraph();
+                        paragraph_title.Inlines.Add($"There are no highlights or comments in: {Environment.NewLine} {file.Name}");
+                        doc.Blocks.Add(paragraph_title);
+                    }
+                    //MessageBox.Show(annot_string);
+
                 }
             }
             catch (Exception ex)
@@ -415,7 +440,7 @@ namespace WPF_PDF_Organizer
                 MessageBox.Show(ex.ToString());
             }
 
-
+            return doc;
         }
 
         private void Make_search()
@@ -578,7 +603,10 @@ namespace WPF_PDF_Organizer
         private void MenuItem_Extract_Comments_and_Highlights_Click(object sender, RoutedEventArgs e)
         {
             ListView_Item item = (ListView_Item)List_View.SelectedItem;
-            Get_Highlighted_Text(item.Path);
+            FlowDocument doc = Get_Highlighted_Text(item.Path);
+            Window_Extract_text window = new Window_Extract_text();
+            window.RichTextBox_Extract.Document = doc;
+            window.Show();
         }
         private void Button_Search_In_Files_Click(object sender, RoutedEventArgs e)
         {
