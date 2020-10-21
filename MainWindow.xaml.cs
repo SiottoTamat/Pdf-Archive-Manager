@@ -187,12 +187,17 @@ namespace WPF_PDF_Organizer
 
         {
             int lastcolumn = gridView.Columns.Count - 1;
-            var rightcolumn = gridView.Columns[lastcolumn];
-            rightcolumn.Width = 40;
-            for (int i = 0; i < lastcolumn; i++)
+            var modcolumn = gridView.Columns[lastcolumn];
+            modcolumn.Width = 40; //OCR column
+            modcolumn = gridView.Columns[lastcolumn - 1];
+            modcolumn.Width = 40; // Filetype column
+            modcolumn = gridView.Columns[0];
+            modcolumn.Width = listview.ActualWidth - 86;
+
+            /*for (int i = 0; i < lastcolumn-1; i++)
             {
-                gridView.Columns[i].Width = (listview.ActualWidth - SystemParameters.VerticalScrollBarWidth - rightcolumn.Width - 10) / lastcolumn;
-            }
+                gridView.Columns[i].Width = (listview.ActualWidth - SystemParameters.VerticalScrollBarWidth - modcolumn.Width - 10) / lastcolumn;
+            }*/
 
 
         }

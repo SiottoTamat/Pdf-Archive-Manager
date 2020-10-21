@@ -59,7 +59,7 @@
                 </TreeView>
             </GroupBox>
             <GroupBox x:Name="ListView_groupbox" Header="ListView" Grid.Column="3" Grid.Row="1" SizeChanged="ListView_groupbox_SizeChanged">
-                <ListView x:Name="List_View" Margin="0,10,0,0" SizeChanged="List_View_SizeChanged" SelectionChanged="List_View_SelectionChanged" MouseDoubleClick="List_View_MouseDoubleClick">
+                <ListView x:Name="List_View" Margin="10" SizeChanged="List_View_SizeChanged" SelectionChanged="List_View_SelectionChanged" MouseDoubleClick="List_View_MouseDoubleClick">
 
                     <ListView.Resources>
                         <Style TargetType="{x:Type ListViewItem}">
@@ -74,7 +74,7 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="Type" Width="40" DisplayMemberBinding="{Binding Type}">
+                            <GridViewColumn Header="Type" Width="10" DisplayMemberBinding="{Binding Type}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Background="{Binding BackgroundColor}"
