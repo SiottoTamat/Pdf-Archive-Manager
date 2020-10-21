@@ -234,10 +234,17 @@ namespace WPF_PDF_Organizer
             string metadatastring = $"Metadata: {Environment.NewLine}" ;
             foreach (PdfName key in infoDictionary.KeySet())
             {
+                string keytext = infoDictionary.GetAsString(key).ToUnicodeString();// key.GetValue();//infoDictionary.GetAsString(key);
+                if (key == PdfName.CreationDate|key==PdfName.ModDate)
+                {
+                    DateTime date = PdfDate.Decode(keytext);//Convert.ToDateTime(keytext);
+                    keytext = date.ToString("dd/MM/yyyy HH:mm:ss");
+                }
+                
                 string cleankey = ($"{ key }").Replace("/", "");
                 //metadatastring += $"{key}: {infoDictionary.GetAsString(key)}" + Environment.NewLine;
 
-                metadatastring += $"{cleankey}: {infoDictionary.GetAsString(key)}{Environment.NewLine}{Environment.NewLine}" ;
+                metadatastring += $"{cleankey}: {keytext}{Environment.NewLine}{Environment.NewLine}" ;
                 // Console.WriteLine($"{key}: {infoDictionary.GetAsString(key)}");
                 
             }
