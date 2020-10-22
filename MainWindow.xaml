@@ -23,6 +23,7 @@
             <!--<MenuItem Header="Database"/>-->
             <MenuItem Header="_Zotero">
                 <MenuItem Header="Load CSV Zotero Database"/>
+                <MenuItem Header="Query" Click="Menuitem_ZoteroQuery"/>
 
             </MenuItem>
         </Menu>

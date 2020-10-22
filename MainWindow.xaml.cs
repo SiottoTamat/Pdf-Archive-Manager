@@ -20,6 +20,8 @@ using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
 using iText.Kernel.Pdf.Canvas.Parser.Listener;
 using iText.Layout;
+using System.Data.SQLite;
+using Org.BouncyCastle.Crypto.Signers;
 
 //using iText.Kernel.Pdf.;
 
@@ -223,6 +225,46 @@ namespace WPF_PDF_Organizer
         #endregion
 
         #region Tools Functions
+
+        public string QueryZotero(string query)
+        {
+            string result = "";
+            /*
+             SQLiteConnectionStringBuilder conn_builder = new SQLiteConnectionStringBuilder
+            {
+                Uri = new Uri(@"C:\Users\Andrea\Desktop\TExt_for_Pdf\zotero.sqlite").AbsoluteUri
+            };
+            string cs = conn_builder.ConnectionString;
+            */
+            //string cs = @"URI=file:C:\Users\Andrea\Desktop\TExt_for_Pdf\zotero.sqlite;Read Only=true";
+            string cs = @"Data Source=C:\\Users\\Andrea\\Desktop\\TExt_for_Pdf\\zotero.sqlite";
+            using var con = new SQLiteConnection(cs,true) ;
+            
+            con.Open();
+
+            using var cmd = new SQLiteCommand(con);
+            string command = "SELECT itemDataValues.value, creators.lastName " +
+                                "FROM items join itemData on items.itemID = itemData.itemID " +
+                                "JOIN itemDataValues on itemDataValues.valueID = itemData.valueID " +
+                                "JOIN itemCreators on itemCreators.itemID = items.itemID " +
+                                "JOIN creators on creators.creatorID = itemCreators.creatorID " +
+                                "JOIN fields on fields.fieldID = itemData.fieldID " +
+                                "WHERE itemDataValues.value LIKE '%" +
+                                query +
+                                "%'AND fields.fieldName = 'title'";
+
+
+
+            cmd.CommandText = command;
+            using SQLiteDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                result += $"{rdr.GetString(0)} {rdr.GetString(1)}";
+            }
+
+            return result;
+        }
         public  string Pdf_get_metadata(string path)
         {
             PdfDocument pdfDoc = new PdfDocument(new PdfReader(path));
@@ -625,12 +667,21 @@ namespace WPF_PDF_Organizer
             Make_search();
         }
 
+        private void Menuitem_ZoteroQuery(object sender, RoutedEventArgs e)
+        {
+           // ListView_Item item = (ListView_Item)List_View.SelectedItem;
+            //string query = item.Name.Replace(".pdf", "");
+            string query = "Women!";
+            string result = QueryZotero(query);
+            MessageBox.Show(result);
+        }
+
 
         #endregion
 
 
         #region Classes Definitions
-        
+
         public class ListView_Item
         {
             public string Name { get; set; }
@@ -678,6 +729,8 @@ namespace WPF_PDF_Organizer
 
             public List<FoundItem> Items { get; set; }
         }
+
+
 
 
 
