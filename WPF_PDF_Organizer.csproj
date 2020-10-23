@@ -103,6 +103,7 @@
     <Compile Include="SearchItem.xaml.cs">
       <DependentUpon>SearchItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SQL_Queries.cs" />
     <Compile Include="Window_Extract_text.xaml.cs">
       <DependentUpon>Window_Extract_text.xaml</DependentUpon>
     </Compile>

@@ -226,44 +226,60 @@ namespace WPF_PDF_Organizer
 
         #region Tools Functions
 
-        public string QueryZotero(string query)
+        public ZoteroField[] QueryZotero(string query)
         {
             string result = "";
-            /*
-             SQLiteConnectionStringBuilder conn_builder = new SQLiteConnectionStringBuilder
-            {
-                Uri = new Uri(@"C:\Users\Andrea\Desktop\TExt_for_Pdf\zotero.sqlite").AbsoluteUri
-            };
-            string cs = conn_builder.ConnectionString;
-            */
-            //string cs = @"URI=file:C:\Users\Andrea\Desktop\TExt_for_Pdf\zotero.sqlite;Read Only=true";
+            
             string cs = @"Data Source=C:\\Users\\Andrea\\Desktop\\TExt_for_Pdf\\zotero.sqlite";
             using var con = new SQLiteConnection(cs,true) ;
             
             con.Open();
 
             using var cmd = new SQLiteCommand(con);
-            string command = "SELECT itemDataValues.value, creators.lastName " +
-                                "FROM items join itemData on items.itemID = itemData.itemID " +
-                                "JOIN itemDataValues on itemDataValues.valueID = itemData.valueID " +
-                                "JOIN itemCreators on itemCreators.itemID = items.itemID " +
-                                "JOIN creators on creators.creatorID = itemCreators.creatorID " +
-                                "JOIN fields on fields.fieldID = itemData.fieldID " +
-                                "WHERE itemDataValues.value LIKE '%" +
-                                query +
-                                "%'AND fields.fieldName = 'title'";
-
+            string command = SQL_Queries.Get_All_Data_for_Item + SQL_Queries.Filter(query);
+                
 
 
             cmd.CommandText = command;
             using SQLiteDataReader rdr = cmd.ExecuteReader();
+            string allcolumns = ""; 
+            int row = 0;
 
-            while (rdr.Read())
+
+
+
+            //    rdr.GetOrdinal("TITLE")))
+            //        string a = rdr.GetString(rdr.GetOrdinal("TITLE"));
+
+            ZoteroField[] zfields = new ZoteroField[rdr.FieldCount];
+            
+            if (rdr.Read())
             {
-                result += $"{rdr.GetString(0)} {rdr.GetString(1)}";
-            }
+                for (int i = 0; i < rdr.FieldCount; i++)
+                {
 
-            return result;
+                    {
+
+                        if (!rdr.IsDBNull(i))
+                        {
+                            string title = rdr.GetName(i);
+                            string value = rdr.GetValue(i).ToString();
+                            ZoteroField z = new ZoteroField();
+                            z.ColumnTitle = title;
+                            z.Value = value;
+                            zfields[i] = z;
+                            //allcolumns += $"{title}: {value}{Environment.NewLine}";
+
+                        }
+                    }
+                }
+                return zfields;
+            }
+                
+
+
+
+            return null;
         }
         public  string Pdf_get_metadata(string path)
         {
@@ -672,8 +688,21 @@ namespace WPF_PDF_Organizer
            // ListView_Item item = (ListView_Item)List_View.SelectedItem;
             //string query = item.Name.Replace(".pdf", "");
             string query = "Women!";
-            string result = QueryZotero(query);
-            MessageBox.Show(result);
+            ZoteroField[] result = QueryZotero(query);
+            
+            if (result != null)
+            {
+                string beautify_result = "";
+                foreach (ZoteroField z in result)
+                {
+                    if (z != null)
+                    {
+                        beautify_result += $"{z.ColumnTitle}: {z.Value}{Environment.NewLine}";
+                    }
+                }
+                MessageBox.Show(beautify_result);
+            }
+            
         }
 
 
@@ -730,7 +759,11 @@ namespace WPF_PDF_Organizer
             public List<FoundItem> Items { get; set; }
         }
 
-
+        public class ZoteroField
+        {
+            public string ColumnTitle { get; set;}
+            public string Value { get; set; }
+        }
 
 
 
