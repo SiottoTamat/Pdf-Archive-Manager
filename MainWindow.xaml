@@ -36,7 +36,7 @@
                 
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="15*"/>
+                <RowDefinition Height="18*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <!--<Grid.RowDefinitions>
@@ -91,8 +91,9 @@
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="Button_Search_In_Files"  Content="Find in Files" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"  Click="Button_Search_In_Files_Click" Width="72"/>
                         <Button x:Name="Button_Search"  Content="Find Files" HorizontalAlignment="Left" Margin="10,0,0,0" Click="Button_Search_Click" VerticalAlignment="Center" Width="60"/>
+                        <Button x:Name="Button_Search_In_Zotero"  Content="Find in Zotero" HorizontalAlignment="Left" Margin="10,0,0,0" Click="Button_Search_In_Zotero_Click" VerticalAlignment="Center" Width="82"/>
 
-                    </StackPanel>
+                        </StackPanel>
                     
                     <TextBox x:Name="TextBox_SearchBar" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="24" Canvas.Left="10" Canvas.Top="110" Margin="10,0,10,10"/>
                 </Grid>
@@ -134,15 +135,20 @@
             </Grid>
             <Grid x:Name="Right_Grid" Grid.Column="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
-                <GroupBox x:Name="Metadata_Groupbox" Header="Info" Grid.Row="1">
+                <GroupBox x:Name="Metadata_Groupbox" Header="Pdf Metadata" Grid.Row="1">
                     <ScrollViewer>
                         <TextBlock x:Name="Info_Textblock" TextWrapping="Wrap" Margin="0,0,0,0" Background="#FFF3F3F3" MinHeight="4"/>
                     </ScrollViewer>
                 </GroupBox>
-
+                <GroupBox x:Name="Zotero_Groupbox" Header="Zotero data" Grid.Row="2">
+                    <ScrollViewer>
+                        <TextBlock x:Name="Zot_Info_Textblock" TextWrapping="Wrap" Margin="0,0,0,0" Background="#FFF3F3F3" MinHeight="4"/>
+                    </ScrollViewer>
+                </GroupBox>
                 <GroupBox x:Name="GroupBox_Filters" Grid.Row="0"  Margin="5">
                     <Grid Margin="5" >
                         <Grid.ColumnDefinitions>
@@ -154,9 +160,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*"/>
                             <RowDefinition Height="2*"/>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="3*"/>
+                            
                         </Grid.RowDefinitions>
                         <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                     </Grid>

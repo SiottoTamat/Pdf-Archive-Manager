@@ -512,7 +512,6 @@ namespace WPF_PDF_Organizer
 
             return doc;
         }
-
         private void Make_search()
         {
             Window_Search_in_Files window = new Window_Search_in_Files();
@@ -520,6 +519,26 @@ namespace WPF_PDF_Organizer
             window.Show();
             window.TextBox_Search.Text = TextBox_SearchBar.Text;
             window.Search_In_Text(window.TextBox_Directory.Text, window.TextBox_Search.Text);
+        }
+
+        private void Make_Zotero_search()
+        {
+            string query = TextBox_SearchBar.Text;
+            ZoteroField[] result = QueryZotero(query);
+
+            if (result != null)
+            {
+                string beautify_result = "";
+                foreach (ZoteroField z in result)
+                {
+                    if (z != null)
+                    {
+                        beautify_result += $"{z.ColumnTitle}: {z.Value}{Environment.NewLine}";
+                    }
+                }
+                Zot_Info_Textblock.Text = beautify_result;
+                //MessageBox.Show(beautify_result);
+            }
         }
         #endregion
 
@@ -685,24 +704,12 @@ namespace WPF_PDF_Organizer
 
         private void Menuitem_ZoteroQuery(object sender, RoutedEventArgs e)
         {
-           // ListView_Item item = (ListView_Item)List_View.SelectedItem;
-            //string query = item.Name.Replace(".pdf", "");
-            string query = "Women!";
-            ZoteroField[] result = QueryZotero(query);
+            Make_Zotero_search();          
             
-            if (result != null)
-            {
-                string beautify_result = "";
-                foreach (ZoteroField z in result)
-                {
-                    if (z != null)
-                    {
-                        beautify_result += $"{z.ColumnTitle}: {z.Value}{Environment.NewLine}";
-                    }
-                }
-                MessageBox.Show(beautify_result);
-            }
-            
+        }
+        private void Button_Search_In_Zotero_Click(object sender, RoutedEventArgs e)
+        {
+            Make_Zotero_search();
         }
 
 
@@ -770,8 +777,9 @@ namespace WPF_PDF_Organizer
 
 
 
+
         #endregion
 
-        
+       
     }
 }
