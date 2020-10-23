@@ -1,0 +1,23 @@
+﻿<Window x:Class="WPF_PDF_Organizer.Window_Search_In_Zotero"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_PDF_Organizer"
+        mc:Ignorable="d"
+        Title="Results of the search in Zotero" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="GroupBox" Margin="5" Grid.Row="2">
+            <DataGrid x:Name="DataGrid_Zotero_Results" Margin="5"/>
+        </GroupBox>
+        <Button x:Name="Search" HorizontalAlignment="Left" Margin="5,0,0,5" Grid.Row="1" VerticalAlignment="Bottom" Width="100" Content="Search in Zotero" Click="Button_Search_Click"/>
+        <TextBox x:Name="TextBox_SearchBar" Grid.Row ="1"  Margin="110
+                 ,0,5,5" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Bottom"/>
+
+    </Grid>
+</Window>

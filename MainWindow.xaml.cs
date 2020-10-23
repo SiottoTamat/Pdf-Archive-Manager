@@ -226,7 +226,7 @@ namespace WPF_PDF_Organizer
 
         #region Tools Functions
 
-        public ZoteroField[] QueryZotero(string query)
+        public static ZoteroField[] QueryZotero(string query)
         {
             string result = "";
             
@@ -236,7 +236,7 @@ namespace WPF_PDF_Organizer
             con.Open();
 
             using var cmd = new SQLiteCommand(con);
-            string command = SQL_Queries.Get_All_Data_for_Item + SQL_Queries.Filter(query);
+            string command = SQL_Queries.Get_All_Data_for_Item + SQL_Queries.Filter_Title(query);
                 
 
 
@@ -523,8 +523,11 @@ namespace WPF_PDF_Organizer
 
         private void Make_Zotero_search()
         {
+            Window_Search_In_Zotero window = new Window_Search_In_Zotero();
+            window.Show();
             string query = TextBox_SearchBar.Text;
             ZoteroField[] result = QueryZotero(query);
+            
 
             if (result != null)
             {
@@ -540,6 +543,7 @@ namespace WPF_PDF_Organizer
                 //MessageBox.Show(beautify_result);
             }
         }
+        
         #endregion
 
         #region Buttons and Clicks
@@ -770,6 +774,15 @@ namespace WPF_PDF_Organizer
         {
             public string ColumnTitle { get; set;}
             public string Value { get; set; }
+        }
+
+        public class Zotero_Query_Result
+        {
+            public string Author { get; set; }
+            public string Title { get; set; }
+            public string Type { get; set; }
+            public string Year { get; set; }
+
         }
 
 

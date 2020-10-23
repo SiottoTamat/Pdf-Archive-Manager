@@ -110,6 +110,9 @@
     <Compile Include="Window_Search_in_Files.xaml.cs">
       <DependentUpon>Window_Search_in_Files.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Window_Search_In_Zotero.xaml.cs">
+      <DependentUpon>Window_Search_In_Zotero.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -131,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Window_Search_in_Files.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_Search_In_Zotero.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

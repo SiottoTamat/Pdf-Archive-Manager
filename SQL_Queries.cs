@@ -8,7 +8,7 @@ namespace WPF_PDF_Organizer
 {
     public static class SQL_Queries
     {
-        public static string Filter(string query)
+        public static string Filter_Title(string query)
         {
             return $" AND title.value LIKE '%{query}%'";
         }
