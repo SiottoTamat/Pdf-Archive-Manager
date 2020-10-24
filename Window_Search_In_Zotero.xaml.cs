@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,9 @@ namespace WPF_PDF_Organizer
             style.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
             DataGridTextColumn column = DataGrid_Zotero_Results.Columns[1] as DataGridTextColumn;
             column.ElementStyle = style;
+            DataGridTextColumn columnDate = DataGrid_Zotero_Results.Columns[3] as DataGridTextColumn;
+            
+            columnDate.Binding.StringFormat = "dd/MM/yyyy";
         }
         public List<MainWindow.Zotero_Query_Result> List_Zotero_Search(string[] queryArr)
         {
@@ -79,7 +83,7 @@ namespace WPF_PDF_Organizer
                                     else { ZQresult.Type = ""; }
                                     break;
                                 case "DATE":
-                                    if (field.Value != null) { ZQresult.Year = field.Value; }
+                                    if (field.Value != null) { ZQresult.Year = cleanDate(field.Value); }
                                     else { ZQresult.Year = ""; }
                                     break;
                             }
@@ -95,6 +99,30 @@ namespace WPF_PDF_Organizer
             return List_result;
         }
 
-        
+        private string cleanDate(string dateraw)
+        {
+            string dateclean = dateraw;
+            if (dateraw != "")
+            {
+                dateclean = dateraw.Substring(0, 4);
+                //try
+                //{
+                //    CultureInfo enUS = new CultureInfo("en-US");
+                //    DateTime datevalue;
+                //    firstdata = firstdata.Replace("-00", "");
+                //    firstdata = firstdata.Replace("-", "/");
+                //    bool result = DateTime.TryParseExact(firstdata, "yyyy/MM",enUS,DateTimeStyles.None, out datevalue);//Convert.ToDateTime(firstdata).ToString("Y");
+                //    if (result)
+                //    {
+                //        dateclean = datevalue.Year.ToString();
+                //    }
+                //}
+                //catch { }
+
+            }
+
+
+            return dateclean;
+        }
     }
 }
