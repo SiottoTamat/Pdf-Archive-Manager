@@ -226,7 +226,7 @@ namespace WPF_PDF_Organizer
 
         #region Tools Functions
 
-        public static List<ZoteroField[]> QueryZotero(string query)
+        public static List<ZoteroField[]> QueryZotero(string[] query)
         {
             List<ZoteroField[]> endlist = new List<ZoteroField[]>();
             
@@ -236,7 +236,11 @@ namespace WPF_PDF_Organizer
             con.Open();
 
             using var cmd = new SQLiteCommand(con);
-            string command = SQL_Queries.Get_All_Data_for_Item + SQL_Queries.Filter_Title(query);
+            string command = SQL_Queries.Get_All_Data_for_Item 
+                + SQL_Queries.Filter_Author(query[0]) 
+                + SQL_Queries.Filter_Title(query[1]) 
+                + SQL_Queries.Filter_Type(query[2]) 
+                + SQL_Queries.Filter_Date(query[3]);
                 
 
 

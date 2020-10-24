@@ -10,9 +10,48 @@ namespace WPF_PDF_Organizer
     {
         public static string Filter_Title(string query)
         {
-            return $" AND title.value LIKE '%{query}%'";
+            if (query == "")
+            {
+                return "";
+            }
+            else
+            {
+                return $" AND title.value LIKE '%{query}%'";
+            }
         }
-
+        public static string Filter_Author(string query)
+        {
+            if (query == "")
+            {
+                return "";
+            }
+            else
+            {
+                return $" AND c1.lastname LIKE '%{query}%'";
+            }
+        }
+        public static string Filter_Type(string query)
+        {
+            if (query == "")
+            {
+                return "";
+            }
+            else
+            {
+                return $" AND t.typeName LIKE '%{query}%'";
+            }
+        }
+        public static string Filter_Date(string query)
+        {
+            if (query == "")
+            {
+                return "";
+            }
+            else
+            {
+                return $" AND d.value LIKE '%{query}%'";
+            }
+        }
         public static readonly string Get_All_Data_for_Item = @"
 SELECT
 i.itemID AS ITEMID,
