@@ -32,46 +32,53 @@ namespace WPF_PDF_Organizer
             string query = TextBox_SearchBar.Text;
             List<MainWindow.Zotero_Query_Result> List_result = List_Zotero_Search();
             DataGrid_Zotero_Results.ItemsSource = List_result;
+            
         }
         public List<MainWindow.Zotero_Query_Result> List_Zotero_Search()
         {
             string query = TextBox_SearchBar.Text;
-            MainWindow.ZoteroField[] result =  MainWindow.QueryZotero(query);
+            List<MainWindow.ZoteroField[]> result =  MainWindow.QueryZotero(query);
 
             List<MainWindow.Zotero_Query_Result> List_result = new List<MainWindow.Zotero_Query_Result>();
             if (result != null)
             {
-                MainWindow.Zotero_Query_Result ZQresult = new Zotero_Query_Result();
-                foreach (MainWindow.ZoteroField z in result)
+                
+                foreach (MainWindow.ZoteroField[] line in result)
                 {
-                    if (z != null)
+                    MainWindow.Zotero_Query_Result ZQresult = new Zotero_Query_Result();
+                    foreach (MainWindow.ZoteroField field in line)
                     {
+                        
+                        if (field != null)
+                        {
 
-                    
-                    
-                    switch (z.ColumnTitle)
-                    {
-                        case "TITLE":
-                            if (z.Value != null) { ZQresult.Title = z.Value; }
-                            else { ZQresult.Title = ""; }
-                            break;
-                        case "AUTHOR_1_LAST":
-                            if (z.Value != null) { ZQresult.Author = z.Value; }
-                            else { ZQresult.Author = ""; }
-                            break;
-                        case "TYPE":
-                            if (z.Value != null) { ZQresult.Type = z.Value; }
-                            else { ZQresult.Type = ""; }
-                            break;
-                        case "DATE":
-                            if (z.Value != null) { ZQresult.Year = z.Value; }
-                            else { ZQresult.Year = ""; }
-                            break;
+
+
+                            switch (field.ColumnTitle)
+                            {
+                                case "TITLE":
+                                    if (field.Value != null) { ZQresult.Title = field.Value; }
+                                    else { ZQresult.Title = ""; }
+                                    break;
+                                case "AUTHOR_1_LAST":
+                                    if (field.Value != null) { ZQresult.Author = field.Value; }
+                                    else { ZQresult.Author = ""; }
+                                    break;
+                                case "TYPE":
+                                    if (field.Value != null) { ZQresult.Type = field.Value; }
+                                    else { ZQresult.Type = ""; }
+                                    break;
+                                case "DATE":
+                                    if (field.Value != null) { ZQresult.Year = field.Value; }
+                                    else { ZQresult.Year = ""; }
+                                    break;
+                            }
+
+                        }
                     }
-                    
-                    }
+                    List_result.Add(ZQresult);
                 }
-                List_result.Add(ZQresult);
+                
             }
 
 

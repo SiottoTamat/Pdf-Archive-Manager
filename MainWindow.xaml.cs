@@ -226,9 +226,9 @@ namespace WPF_PDF_Organizer
 
         #region Tools Functions
 
-        public static ZoteroField[] QueryZotero(string query)
+        public static List<ZoteroField[]> QueryZotero(string query)
         {
-            string result = "";
+            List<ZoteroField[]> endlist = new List<ZoteroField[]>();
             
             string cs = @"Data Source=C:\\Users\\Andrea\\Desktop\\TExt_for_Pdf\\zotero.sqlite";
             using var con = new SQLiteConnection(cs,true) ;
@@ -251,10 +251,12 @@ namespace WPF_PDF_Organizer
             //    rdr.GetOrdinal("TITLE")))
             //        string a = rdr.GetString(rdr.GetOrdinal("TITLE"));
 
-            ZoteroField[] zfields = new ZoteroField[rdr.FieldCount];
             
-            if (rdr.Read())
+            
+            //if (rdr.Read())
+            while(rdr.Read())
             {
+                ZoteroField[] zfields = new ZoteroField[rdr.FieldCount];
                 for (int i = 0; i < rdr.FieldCount; i++)
                 {
 
@@ -273,13 +275,14 @@ namespace WPF_PDF_Organizer
                         }
                     }
                 }
-                return zfields;
+                endlist.Add(zfields);
+                //return zfields;
             }
                 
 
 
 
-            return null;
+            return endlist;
         }
         public  string Pdf_get_metadata(string path)
         {
@@ -525,23 +528,27 @@ namespace WPF_PDF_Organizer
         {
             Window_Search_In_Zotero window = new Window_Search_In_Zotero();
             window.Show();
-            string query = TextBox_SearchBar.Text;
-            ZoteroField[] result = QueryZotero(query);
+            //string query = TextBox_SearchBar.Text;
+            //List<ZoteroField[]> result = QueryZotero(query);
             
 
-            if (result != null)
-            {
-                string beautify_result = "";
-                foreach (ZoteroField z in result)
-                {
-                    if (z != null)
-                    {
-                        beautify_result += $"{z.ColumnTitle}: {z.Value}{Environment.NewLine}";
-                    }
-                }
-                Zot_Info_Textblock.Text = beautify_result;
+            //if (result != null)
+            //{
+            //    string beautify_result = "";
+            //    foreach (ZoteroField[] z in result)
+            //    {
+            //        foreach (ZoteroField i in z)
+            //        {
+            //            if (z != null)
+            //            {
+            //                beautify_result += $"{i.ColumnTitle}: {i.Value}{Environment.NewLine}";
+            //            }
+            //        }
+                    
+            //    }
+            //    Zot_Info_Textblock.Text = beautify_result;
                 //MessageBox.Show(beautify_result);
-            }
+            //}
         }
         
         #endregion

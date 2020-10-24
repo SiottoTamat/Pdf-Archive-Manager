@@ -7,13 +7,18 @@
         mc:Ignorable="d"
         Title="Results of the search in Zotero" Height="450" Width="800">
     <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="DataGridCellTemplate">
+                <TextBlock  Text="{Binding field}" MaxWidth="400" MinWidth="100" TextWrapping="WrapWithOverflow"/>
+            </DataTemplate>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
         <GroupBox Header="GroupBox" Margin="5" Grid.Row="2">
-            <DataGrid x:Name="DataGrid_Zotero_Results" Margin="5"/>
+            <DataGrid x:Name="DataGrid_Zotero_Results" Margin="5" HorizontalGridLinesBrush="#FFCCCEDB" VerticalGridLinesBrush="#FFCCCEDB"/>
         </GroupBox>
         <Button x:Name="Search" HorizontalAlignment="Left" Margin="5,0,0,5" Grid.Row="1" VerticalAlignment="Bottom" Width="100" Content="Search in Zotero" Click="Button_Search_Click"/>
         <TextBox x:Name="TextBox_SearchBar" Grid.Row ="1"  Margin="110
