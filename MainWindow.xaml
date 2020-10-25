@@ -6,6 +6,27 @@
         xmlns:local="clr-namespace:WPF_PDF_Organizer"
         mc:Ignorable="d"
         Title="PDF Organizer" Height="768" Width="1024">
+    <Window.Resources>
+        <Style x:Key="GridViewColumnHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <Border BorderThickness="0,0,0,1" BorderBrush="Black">
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ScrollBarColorKey}}"/>
+                            </Border.Background>
+                            <TextBlock x:Name="ContentHeader" Text="{TemplateBinding Content}" Padding="5,5,5,0" Width="{TemplateBinding Width}"/>
+                            <!--TextAlignment="Center"-->
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <!--<Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="12" />-->
+        </Style>
+    </Window.Resources>
     <Window.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
     </Window.Background>
@@ -15,8 +36,8 @@
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
             </Menu.Background>
             <MenuItem Header="_File">
-                <MenuItem Header="_Choose Archive Directory"/>
-                <MenuItem Header="_Exit" Click="Menu_Exit_Click"/>
+                <MenuItem Header="_Open Archive Directory" Click="MenuItem_Open_Archive_Directory"/>
+                <MenuItem Header="_Exit" Click="MenuItem_Exit_Click"/>
             </MenuItem>
             <MenuItem Header="_Tools">
                 <!--<MenuItem Header="Extract Comments"/>
@@ -53,7 +74,7 @@
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>-->
             <GroupBox x:Name="Tree_View_Group" Header="Folders" Grid.Column="0" Grid.Row="0" >
-                <TreeView x:Name="Tree_View" Margin="2,10,0,0" SelectedItemChanged="Tree_View_SelectedItemChanged">
+                <TreeView x:Name="Tree_View" Margin="2,10,0,0" >
                     <TreeView.Resources>
                         <Style TargetType="{x:Type TreeViewItem}">
                             <Setter Property="HeaderTemplate">
@@ -74,6 +95,11 @@
                     <TreeView.Background>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
                     </TreeView.Background>
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <EventSetter Event="MouseLeftButtonUp" Handler="TreeViewItem_MouseLeftButtonUp"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
                 </TreeView>
             </GroupBox>
             <!--<Grid x:Name="General_Grid" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
@@ -93,8 +119,8 @@
 
                     </Grid.RowDefinitions>
 
-                    <GroupBox x:Name="GroupBox_Directory"  Header="Archive Folder" HorizontalAlignment="Left" Height="46" Margin="10,10,0,0" VerticalAlignment="Top" Width="488">
-                        <TextBox x:Name="TextBox_Dir"  TextWrapping="Wrap" Margin="0" MouseDoubleClick="TextBox_Dir_MouseDoubleClick">
+                    <GroupBox x:Name="GroupBox_Directory"  Header="Archive Folder" Height="46" Margin="0,10,0,0">
+                        <TextBox x:Name="TextBox_Dir"  TextWrapping="Wrap" Margin="10,0,0,0" MouseDoubleClick="TextBox_Dir_MouseDoubleClick">
                             <TextBox.Background>
                                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
                             </TextBox.Background>
@@ -103,18 +129,18 @@
                     </GroupBox>
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="1.4*"/>
                             <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1.5*"/>
 
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal">
-                            <Button x:Name="Button_Search"  Content=" Find Files " ToolTip="Search files by name" HorizontalAlignment="Left" Margin="10,0,0,0" Click="Button_Search_Click" Width="60"/>
-                            <Button x:Name="Button_Search_In_Zotero"  Content=" Find in Zotero " HorizontalAlignment="Left" Margin="10,0,0,0" Click="Button_Search_In_Zotero_Click" Width="82"/>
-                            <Button x:Name="Button_Search_In_Files"  Content=" Search Into Text Files " HorizontalAlignment="Left" Margin="10,0,0,0"  Click="Button_Search_In_Files_Click" />
+                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                            <Button x:Name="Button_Search"  Content=" Find Files " ToolTip="Search files by name" HorizontalAlignment="Left" Margin="16,5,0,5" Click="Button_Search_Click" Width="60"/>
+                            <Button x:Name="Button_Search_In_Zotero"  Content=" Find in Zotero " HorizontalAlignment="Left" Margin="10,5,0,5" Click="Button_Search_In_Zotero_Click" Width="82"/>
+                            <Button x:Name="Button_Search_In_Files"  Content=" Search Into Text Files " HorizontalAlignment="Left" Margin="10,5,0,5"  Click="Button_Search_In_Files_Click" />
 
                         </StackPanel>
-                        <GroupBox Grid.Row="1" Header="Search Bar">
-                            <TextBox x:Name="TextBox_SearchBar"  TextWrapping="Wrap" Canvas.Left="10" Canvas.Top="110" Margin="10,0" Height="23">
+                        <GroupBox Grid.Row="0" Header="Search Bar" Margin="0">
+                            <TextBox x:Name="TextBox_SearchBar"  TextWrapping="Wrap" Canvas.Left="10" Canvas.Top="110" Margin="10,0,0,0" Height="23">
                                 <TextBox.Background>
                                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
                                 </TextBox.Background>
@@ -124,8 +150,8 @@
                     </Grid>
                 </Grid>
                 <GroupBox x:Name="ListView_groupbox" Header="Results" Grid.Column="1" Grid.Row="1" SizeChanged="ListView_groupbox_SizeChanged">
-                    <ListView x:Name="List_View" Margin="10" SizeChanged="List_View_SizeChanged" SelectionChanged="List_View_SelectionChanged" MouseDoubleClick="List_View_MouseDoubleClick">
-
+                    <ScrollViewer>
+                        <ListView x:Name="List_View" Margin="10" SizeChanged="List_View_SizeChanged" SelectionChanged="List_View_SelectionChanged" MouseDoubleClick="List_View_MouseDoubleClick">
                         <ListView.Resources>
                             <Style TargetType="{x:Type ListViewItem}">
                                 <Style.Triggers>
@@ -143,7 +169,8 @@
                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
                         </ListView.Background>
                         <ListView.View>
-                            <GridView>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
+
                                 <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding Name}"/>
                                 <GridViewColumn Header="Type" Width="10" DisplayMemberBinding="{Binding Type}">
                                     <GridViewColumn.CellTemplate>
@@ -161,6 +188,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    </ScrollViewer> 
                 </GroupBox>
 
             </Grid>
@@ -188,21 +216,17 @@
                         </TextBlock>
                     </ScrollViewer>
                 </GroupBox>
-                <GroupBox x:Name="GroupBox_Filters" Grid.Row="0"  Margin="5">
-                    <Grid Margin="5" >
-                        <Grid.ColumnDefinitions>
-                            <!--<ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>-->
+                <GroupBox x:Name="GroupBox_Filters" Header="File Info" Grid.Row="0">
+                    <ScrollViewer>
+                        <TextBlock x:Name="File_Info_Textblock" TextWrapping="Wrap" Margin="0,0,0,0" MinHeight="4">
+                            <TextBlock.Background>
+                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                            </TextBlock.Background>
+                        </TextBlock>
+                    </ScrollViewer>
 
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition Height="2*"/>
 
-                        </Grid.RowDefinitions>
-                        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    </Grid>
+
                 </GroupBox>
 
             </Grid>

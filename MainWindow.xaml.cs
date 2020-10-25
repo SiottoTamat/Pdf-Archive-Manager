@@ -60,69 +60,7 @@ namespace WPF_PDF_Organizer
                 {
                     MessageBox.Show("error with a directory handling in the treeview");
                 }
-
-
-            /* foreach (var file in directoryInfo.GetFiles())
-                 try
-                 {
-                     directoryNode.Items.Add(new TreeViewItem { Header = file.Name });
-                 }
-                 catch
-                 {
-                     MessageBox.Show("error with a file handling in the treeview");
-                 }
-                 */
-
             return directoryNode;
-
-        }// it creates the nodes of the left treeview
-        private void Tree_View_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            TreeViewItem tree_Item = (TreeViewItem)e.NewValue;// as TreeViewItem;
-            if (tree_Item != null)
-            {
-                //MessageBox.Show(tree_Item.Tag.ToString());
-                string folderPath = tree_Item.Tag.ToString();
-                List_View.Items.Clear();
-                DirectoryInfo nodeDirInfo = new DirectoryInfo(folderPath);
-
-                foreach (FileInfo file in nodeDirInfo.GetFiles())
-                {
-                    Add_File_To_ListView(file);
-
-
-                }
-                //populate OCR column
-                
-                    Task.Factory.StartNew(() =>
-                    {
-                        try
-                        {
-                            for (int i = 0; i < List_View.Items.Count; i++)
-                            {
-                                FileInfo file = new FileInfo(((ListView_Item)List_View.Items[i]).Path);
-                                if (file.Extension == ".pdf")
-                                {
-                                    if (Find_fonts(file.FullName) != null && Find_fonts(file.FullName).Count > 0)
-                                    {
-                                        ((ListView_Item)List_View.Items[i]).OCR = true;
-                                        Dispatcher.BeginInvoke(new Action(() =>
-                                        {
-                                            List_View.Items.Refresh();
-                                        }));
-                                    }
-
-                                }
-                            }
-                        }
-                        catch { }
-
-
-                    });
-                
-                
-
-            }
 
         }
         private void ListDirectory(TreeView treeView, string path)
@@ -140,7 +78,26 @@ namespace WPF_PDF_Organizer
 
             }
         }//it populates the left treeview
+        private void TreeViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem tree_Item = (TreeViewItem)sender;
+            TreeView tree = (TreeView)tree_Item.Parent;
+            TreeViewItem selected = (TreeViewItem)tree.SelectedItem;
+            //TreeViewItem selected = tree_Item; 
+            //if (!tree_Item.IsSelected)
+            //{
+            //    if (tree_Item.IsExpanded)
+            //    {
+            //         foreach (TreeViewItem child in tree_Item.Items)
+            //        {
+            //            if (child.IsSelected) { selected = child; }
+            //        }
+            //    }
+            //}
 
+            Populate_ListView(selected);
+            e.Handled = true;
+        }
         #endregion
 
         #region ListView
@@ -166,9 +123,22 @@ namespace WPF_PDF_Organizer
             if (count > 0)
             {
                 ListView_Item item = (ListView_Item)e.AddedItems[0];
+                FileInfo fileinfo = new FileInfo(((ListView_Item)e.AddedItems[0]).Path);
+                Task.Factory.StartNew(() =>
+                {
+                    File_Info_Textblock.Dispatcher.BeginInvoke(new Action(() => {
+                    File_Info_Textblock.Text = $"Folder:{Environment.NewLine}{fileinfo.DirectoryName}{Environment.NewLine}" +
+                        $"Type: {fileinfo.Extension}{Environment.NewLine}{Environment.NewLine}" +
+                        $"Size: {BytesToString(fileinfo.Length)}";
+                    }));
+                });
                 if (item.Type == ".pdf")
                 {
                     Info_Textblock.Text = Pdf_get_metadata(item.Path);
+                    
+
+
+
                 }
 
             }
@@ -226,11 +196,67 @@ namespace WPF_PDF_Organizer
             }
 
         }
+        private void Populate_ListView(TreeViewItem tree_Item)
+        {
+            if (tree_Item != null)
+            {
+                //MessageBox.Show(tree_Item.Tag.ToString());
+                string folderPath = tree_Item.Tag.ToString();
+                List_View.Items.Clear();
+                DirectoryInfo nodeDirInfo = new DirectoryInfo(folderPath);
+
+                foreach (FileInfo file in nodeDirInfo.GetFiles())
+                {
+                    Add_File_To_ListView(file);
+
+
+                }
+                //populate OCR column
+
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        for (int i = 0; i < List_View.Items.Count; i++)
+                        {
+                            FileInfo file = new FileInfo(((ListView_Item)List_View.Items[i]).Path);
+                            if (file.Extension == ".pdf")
+                            {
+                                if (Find_fonts(file.FullName) != null && Find_fonts(file.FullName).Count > 0)
+                                {
+                                    ((ListView_Item)List_View.Items[i]).OCR = true;
+                                    Dispatcher.BeginInvoke(new Action(() =>
+                                    {
+                                        List_View.Items.Refresh();
+                                    }));
+                                }
+
+                            }
+                        }
+                    }
+                    catch { }
+
+
+                });
+
+
+
+            }
+        }
 
         #endregion
 
         #region Tools Functions
-
+        static String BytesToString(long byteCount)
+        {
+            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
+            if (byteCount == 0)
+                return "0" + suf[0];
+            long bytes = Math.Abs(byteCount);
+            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
+            return (Math.Sign(byteCount) * num).ToString() + suf[place];
+        }
         public static List<ZoteroField[]> QueryZotero(string[] query)
         {
             List<ZoteroField[]> endlist = new List<ZoteroField[]>();
@@ -537,6 +563,27 @@ namespace WPF_PDF_Organizer
             
         }
 
+        public void Open_Archive_Directory()
+        {
+            using var fbd = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+            {
+                TextBox_Dir.Text = fbd.SelectedPath;
+            }
+            ListDirectory(Tree_View, TextBox_Dir.Text);
+            List_View.Items.Clear();
+            DirectoryInfo nodeDirInfo = new DirectoryInfo(TextBox_Dir.Text);
+
+            foreach (FileInfo file in nodeDirInfo.GetFiles())
+            {
+                Add_File_To_ListView(file);
+
+
+            }
+        }
+
         private void Make_Zotero_search()
         {
             Window_Search_In_Zotero window = new Window_Search_In_Zotero();
@@ -571,6 +618,8 @@ namespace WPF_PDF_Organizer
         #endregion
 
         #region Buttons and Clicks
+
+        #region Buttons
         private void Button_Search_Click(object sender, RoutedEventArgs e)
         {
             
@@ -603,6 +652,25 @@ namespace WPF_PDF_Organizer
 
 
         }
+        private void Button_Search_In_Files_Click(object sender, RoutedEventArgs e)
+        {
+            Make_search();
+        }
+        private void Button_Search_In_Zotero_Click(object sender, RoutedEventArgs e)
+        {
+            Make_Zotero_search();
+        }
+        #endregion
+
+        # region Control Clicks
+        private void TextBox_Dir_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Open_Archive_Directory();
+        }
+        
+        #endregion
+
+        #region Menus
         private void MenuItem_Extract_All_Text_Click(object sender, RoutedEventArgs e)
         {
 
@@ -692,30 +760,8 @@ namespace WPF_PDF_Organizer
             });
         }
         
-        private void TextBox_Dir_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
-            {
-                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
-
-                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                {
-                    TextBox_Dir.Text = fbd.SelectedPath;
-                }
-                ListDirectory(Tree_View, TextBox_Dir.Text);
-                List_View.Items.Clear();
-                DirectoryInfo nodeDirInfo = new DirectoryInfo(TextBox_Dir.Text);
-
-                foreach (FileInfo file in nodeDirInfo.GetFiles())
-                {
-                    Add_File_To_ListView(file);
-
-
-                }
-            }
-        }
         
-        private void Menu_Exit_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
         }
@@ -757,19 +803,11 @@ namespace WPF_PDF_Organizer
             window.RichTextBox_Extract.Document = doc;
             window.Show();
         }
-        private void Button_Search_In_Files_Click(object sender, RoutedEventArgs e)
-        {
-            Make_search();
-        }
 
         private void Menuitem_ZoteroQuery(object sender, RoutedEventArgs e)
         {
             Make_Zotero_search();          
             
-        }
-        private void Button_Search_In_Zotero_Click(object sender, RoutedEventArgs e)
-        {
-            Make_Zotero_search();
         }
         private void Menuitem_ZoteroFindDb(object sender, RoutedEventArgs e)
         {
@@ -781,13 +819,19 @@ namespace WPF_PDF_Organizer
                 Label_Zotero_Database.Content = Zotero_Database_Path;
             }
         }
+        private void MenuItem_Open_Archive_Directory(object sender, RoutedEventArgs e)
+        {
+            Open_Archive_Directory();
+        }
+        
+    #endregion
 
-        #endregion
+    #endregion
 
 
-        #region Classes Definitions
+    #region Classes Definitions
 
-        public class ListView_Item
+    public class ListView_Item
         {
             public string Name { get; set; }
 
@@ -849,6 +893,7 @@ namespace WPF_PDF_Organizer
             public string Year { get; set; }
 
         }
+
 
 
 
