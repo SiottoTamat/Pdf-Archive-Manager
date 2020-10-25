@@ -52,7 +52,6 @@ namespace WPF_PDF_Organizer
         }
         public  List<MainWindow.Zotero_Query_Result> List_Zotero_Search(string[] queryArr)
         {
-            //string query = TextBox_SearchBar.Text;
             List<MainWindow.ZoteroField[]> result =  MainWindow.QueryZotero(queryArr);
 
             List<MainWindow.Zotero_Query_Result> List_result = new List<MainWindow.Zotero_Query_Result>();
@@ -107,23 +106,7 @@ namespace WPF_PDF_Organizer
             if (dateraw != "")
             {
                 dateclean = dateraw.Substring(0, 4);
-                //try
-                //{
-                //    CultureInfo enUS = new CultureInfo("en-US");
-                //    DateTime datevalue;
-                //    firstdata = firstdata.Replace("-00", "");
-                //    firstdata = firstdata.Replace("-", "/");
-                //    bool result = DateTime.TryParseExact(firstdata, "yyyy/MM",enUS,DateTimeStyles.None, out datevalue);//Convert.ToDateTime(firstdata).ToString("Y");
-                //    if (result)
-                //    {
-                //        dateclean = datevalue.Year.ToString();
-                //    }
-                //}
-                //catch { }
-
             }
-
-
             return dateclean;
         }
 

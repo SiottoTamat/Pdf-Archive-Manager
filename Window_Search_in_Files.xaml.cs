@@ -48,21 +48,7 @@ namespace WPF_PDF_Organizer
                 
                 foreach (string filename in files)
                 {
-                    
-                    
-
-
-
-
-
-
-
-
-
-
-
-
-                    Dispatcher.Invoke(new Action(() =>
+                  Dispatcher.Invoke(new Action(() =>
                     {
                         index++;
                         string counter = $"{index} of {nfiles} files.";
@@ -70,8 +56,6 @@ namespace WPF_PDF_Organizer
                         
                     }));
                     FileInfo file = new FileInfo(filename);
-                    //if (file.Extension == ".txt")
-                    //{
 
 
                     string text = System.IO.File.ReadAllText(filename);
@@ -80,8 +64,6 @@ namespace WPF_PDF_Organizer
 
                     for (int i = 0; i < pages.Length; i++)
                     {
-                        //MessageBox.Show(pages[i]);
-
                         foreach (Match m in rgx.Matches(pages[i]))
                         {
 
@@ -111,14 +93,9 @@ namespace WPF_PDF_Organizer
                                 buttonTextBlockPdf.Text = "No pdf version of this file.";
                             }
 
-
-
-
-
                             item.Label_Page.Content = "Page " + (i + 1).ToString();
                                 
-
-                                Paragraph paragraph = new Paragraph();
+                            Paragraph paragraph = new Paragraph();
                             paragraph.Inlines.Add("...");
                             paragraph.Inlines.Add(pre_string);
                             paragraph.Inlines.Add(new Run(m.Value) { FontWeight = FontWeights.Bold, Background = Brushes.Yellow });
@@ -135,10 +112,8 @@ namespace WPF_PDF_Organizer
                             Label_Nfinds.Content = StackPanel_Result_Search.Children.Count;
                         }));
 
-                    //}
 
                 }
-                //return null;
 
                 string[] Split_Pages(string text)
                 {
@@ -156,10 +131,7 @@ namespace WPF_PDF_Organizer
         #region ButtonsAndClicks
         public void Button_TestCreateItem_Click(object sender, RoutedEventArgs e)
         {
-
             SearchItem item = new SearchItem();
-            //GroupBox_Items.Content = item;
-            //StackPanel_Result_Search.Children.Add(item);
             Search_In_Text(TextBox_Directory.Text, TextBox_Search.Text);
         }
         #endregion

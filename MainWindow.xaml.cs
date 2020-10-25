@@ -33,19 +33,19 @@ namespace WPF_PDF_Organizer
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static string Zotero_Database_Path = ""; //@"Data Source=C:\\Users\\Andrea\\Desktop\\TExt_for_Pdf\\zotero.sqlite";
-        //ImageList imageList = new ImageList();
+        public static string Zotero_Database_Path = ""; 
+        
         public MainWindow()
         {
             
-           // imageList.Images.Add()
+           
             InitializeComponent();
 
             
 
 
 
-            //TextBox_Dir.Text = "";
+            
             if (TextBox_Dir.Text != "")
             {
                 ListDirectory(Tree_View, TextBox_Dir.Text);
@@ -158,7 +158,7 @@ namespace WPF_PDF_Organizer
                 var gridView = listView.View as GridView;
                 if (null != gridView)
                 {
-                    // ... and update its column widths
+                    
                     UpdateColumnWidths(listView, gridView);
                 }
             }
@@ -176,11 +176,7 @@ namespace WPF_PDF_Organizer
             modcolumn = gridView.Columns[0];
             modcolumn.Width = listview.ActualWidth - 86;
 
-            /*for (int i = 0; i < lastcolumn-1; i++)
-            {
-                gridView.Columns[i].Width = (listview.ActualWidth - SystemParameters.VerticalScrollBarWidth - modcolumn.Width - 10) / lastcolumn;
-            }*/
-
+           
 
         }
         private void ListView_groupbox_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -205,7 +201,7 @@ namespace WPF_PDF_Organizer
         {
             if (tree_Item != null)
             {
-                //MessageBox.Show(tree_Item.Tag.ToString());
+                
                 string folderPath = tree_Item.Tag.ToString();
                 List_View.Items.Clear();
                 
@@ -283,18 +279,7 @@ namespace WPF_PDF_Organizer
 
             cmd.CommandText = command;
             using SQLiteDataReader rdr = cmd.ExecuteReader();
-            string allcolumns = ""; 
-            int row = 0;
-
-
-
-
-            //    rdr.GetOrdinal("TITLE")))
-            //        string a = rdr.GetString(rdr.GetOrdinal("TITLE"));
-
             
-            
-            //if (rdr.Read())
             while(rdr.Read())
             {
                 ZoteroField[] zfields = new ZoteroField[rdr.FieldCount];
@@ -311,13 +296,13 @@ namespace WPF_PDF_Organizer
                             z.ColumnTitle = title;
                             z.Value = value;
                             zfields[i] = z;
-                            //allcolumns += $"{title}: {value}{Environment.NewLine}";
+                            
 
                         }
                     }
                 }
                 endlist.Add(zfields);
-                //return zfields;
+                
             }
                 
 
@@ -344,30 +329,12 @@ namespace WPF_PDF_Organizer
                 }
                 
                 string cleankey = ($"{ key }").Replace("/", "");
-                //metadatastring += $"{key}: {infoDictionary.GetAsString(key)}" + Environment.NewLine;
 
                 metadatastring += $"{cleankey}: {keytext}{Environment.NewLine}{Environment.NewLine}" ;
-                // Console.WriteLine($"{key}: {infoDictionary.GetAsString(key)}");
                 
             }
             metadatastring += $"-----------------{Environment.NewLine}";
-            /*
-                        int numberOfPdfObjects = pdfDoc.GetNumberOfPdfObjects();
-                        // Search for the font dictionary
-                        HashSet<string> fontList = new HashSet<string>();
-                        string fonts = "";
-                        string type = "";
-                        for (int i = 0; i < numberOfPdfObjects; i++)
-                        {
-                            PdfObject pdfObject = pdfDoc.GetPdfObject(i);
-                            if (pdfObject != null && pdfObject.IsDictionary() && PdfName.Font.Equals(((PdfDictionary)pdfObject).GetAsName(PdfName.Type)))
-                            {
-                                fontList.Add(((PdfDictionary)pdfObject).GetAsName(PdfName.BaseFont).GetValue().ToString());
-                                //fonts += ((PdfDictionary)pdfObject).GetAsName(PdfName.BaseFont).GetValue().ToString() + "; ";
-                            }
-
-                        }
-            */
+            
             HashSet<string> fontinfo = Find_fonts(path);
             if (fontinfo !=null && fontinfo.Count > 0)
             {
@@ -387,23 +354,19 @@ namespace WPF_PDF_Organizer
             HashSet<string> result = new HashSet<string>();
             try { 
             
-            //result.Count = 0;
             PdfDocument pdfDoc = new PdfDocument(new PdfReader(path));
             Document doc = new Document(pdfDoc);
-            PdfFont pdfFont;
-            pdfFont = null;
+            
             int numberOfPdfObjects = pdfDoc.GetNumberOfPdfObjects();
             // Search for the font dictionary
             HashSet<string> fontList = new HashSet<string>();
-            string fonts = "";
-            string type = "";
+            
             for (int i = 0; i < numberOfPdfObjects; i++)
             {
                 PdfObject pdfObject = pdfDoc.GetPdfObject(i);
                 if (pdfObject != null && pdfObject.IsDictionary() && PdfName.Font.Equals(((PdfDictionary)pdfObject).GetAsName(PdfName.Type)))
                 {
                     result.Add(((PdfDictionary)pdfObject).GetAsName(PdfName.BaseFont).GetValue().ToString());
-                    //fonts += ((PdfDictionary)pdfObject).GetAsName(PdfName.BaseFont).GetValue().ToString() + "; ";
                 }
 
             }
@@ -450,7 +413,7 @@ namespace WPF_PDF_Organizer
 
                                 for (int i = 1; i <= pdfDoc.GetNumberOfPages(); i++)
                                 {
-                                    fs.WriteLine(PdfTextExtractor.GetTextFromPage(pdfDoc.GetPage(i)));// (reader, i, new SimpleTextExtractionStrategy()));
+                                    fs.WriteLine(PdfTextExtractor.GetTextFromPage(pdfDoc.GetPage(i)));
                                     fs.WriteLine("--------- end of page " + i.ToString() + "---------");
                                 }
                             }
@@ -473,9 +436,7 @@ namespace WPF_PDF_Organizer
         {
             
             
-            //paragraph.Inlines.Add("");
             FlowDocument doc = new FlowDocument();
-            //doc.Blocks.Add(paragraph);
             int pageTo;
             bool hasAnnot=false;
             try
@@ -484,7 +445,6 @@ namespace WPF_PDF_Organizer
                 {
                     PdfDocument pdfDoc = new PdfDocument(reader);
                     pageTo = pdfDoc.GetNumberOfPages();
-                    //string annot_string = "";
                     for (int i = 1; i <= pageTo; i++)
                     {
                         
@@ -496,8 +456,7 @@ namespace WPF_PDF_Organizer
                         {
                             hasAnnot = true;
                             Paragraph paragraph = new Paragraph();
-                            //annot_string += $"------- Page: {i.ToString()}-------{Environment.NewLine}";
-                            //string pageN = "Page " + i.ToString() + ".";
+                            
                             paragraph.Inlines.Clear();
                             paragraph.Inlines.Add("------- Page:");
                             paragraph.Inlines.Add($"{i.ToString()}");
@@ -516,7 +475,6 @@ namespace WPF_PDF_Organizer
                                     paragraph_annot.Inlines.Add(new Run($"{subType.GetValue()}"){ FontWeight = FontWeights.Bold});
                                     paragraph_annot.Inlines.Add($":{Environment.NewLine}");
                                     paragraph_annot.Inlines.Add($"{annot_Text.ToUnicodeString()}{Environment.NewLine}");
-                                    //annot_string += $"{subType.GetValue()}: {annot_Text.ToUnicodeString()}{Environment.NewLine}";
                                     doc.Blocks.Add(paragraph_annot);
                                 }
 
@@ -697,16 +655,6 @@ namespace WPF_PDF_Organizer
                         {
                                 FileInfo file = new FileInfo(address);
                                 templist.Add(file);
-
-                            
-                            
-
-                            /*Process_Form.WorkingOn = item.;
-                            Process_Form.FileProcessed = index_Foreach.ToString();
-                            Process_Form.Refresh();
-                            index_Foreach += 1;
-                            */
-                            
                         }
                     }
                 }
@@ -717,50 +665,17 @@ namespace WPF_PDF_Organizer
 
 
             }
-                //Dispatcher.BeginInvoke(new Action(() =>
-                //{
-                //    Label_Info_Bottom_Right.Content = $"Working on: {((ListView_Item)List_View.Items[i]).Name}  Processed:{i}"; 
-                //    //$"{templist.Count.ToString()} Files without txt version. Total number of Files: ";
-                //    List_View.Items.Clear();
-
-                //}));
-                //Dispatcher.BeginInvoke(new Action(() =>
-                //{
-                //    List_View.Items.Clear();
-                //}));
+                
                 int index = 0;
-                foreach (FileInfo file in templist)//(int i=0; i< templist.Count; i++) 
+                foreach (FileInfo file in templist)
                 {
                     Label_Info_Bottom_Right.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        //List_View.Items.Add(templist[i]);
                         Label_Info_Bottom_Right.Content = $"Working on: {file.Name}  Processed:{index}";
-                        //Label_Info_Bottom_Right.Width = System.Windows.Forms.TextRenderer.MeasureText(Label_Info_Bottom_Right.Content, Label_Info_Bottom_Right.Font).Width;
-                        //Label_Info_Bottom_Right.aut
                     }));
                     Extract_Text(file.FullName);
                     index++;
-                    //Dispatcher.BeginInvoke(new Action(() =>
-                    //{
-
-
-                    //}));
-
                 }
-
-                //for (int i = 0; i < List_View.Items.Count; i++)
-                //{
-                //    Dispatcher.BeginInvoke(new Action(() =>
-                //    {
-                //        Label_Info_Bottom_Right.Content = $"Working on: {((ListView_Item)List_View.Items[i]).Name}  Processed:{i}";
-
-                //    }));
-                //    Extract_Text(((ListView_Item)List_View.Items[i]).Path);
-                //    //string fileProcessed = System.IO.Path.GetFileName(address);
-                //}
-
-
-
 
                 MessageBox.Show($"{templist.Count.ToString()} Files successfully created.");
             });
@@ -899,14 +814,6 @@ namespace WPF_PDF_Organizer
             public string Year { get; set; }
 
         }
-
-
-
-
-
-
-
-
 
         #endregion
 
