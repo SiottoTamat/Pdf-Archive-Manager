@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using System.Linq.Expressions;
+using System.Windows.Threading;
 
 namespace WPF_PDF_Organizer
 {
@@ -26,37 +28,76 @@ namespace WPF_PDF_Organizer
             InitializeComponent();
         }
         #region Tools
-    public void Search_In_Text(string folder, string searchstring, bool subdir=false)
+        public void Search_In_Text(string folder, string searchstring)
         {
             StackPanel_Result_Search.Children.Clear();
-    foreach (string filename in Directory.GetFiles(folder))
+            SearchOption option = SearchOption.TopDirectoryOnly;
+            if (CheckBox_In_Subfolders.IsChecked == true)
             {
-                FileInfo file = new FileInfo(filename);
-                if (file.Extension == ".txt")
+                option = SearchOption.AllDirectories;
+            }
+            try
+            {
+
+                int index = 0;
+                string[] files = Directory.GetFiles(folder, "*.txt", option);
+                int nfiles = files.Length;
+                Task.Run(() =>
                 {
+
+                
+                foreach (string filename in files)
+                {
+                    
+                    
+
+
+
+
+
+
+
+
+
+
+
+
+                    Dispatcher.Invoke(new Action(() =>
+                    {
+                        index++;
+                        string counter = $"{index} of {nfiles} files.";
+                        Label_Counter.Content = counter;
+                        
+                    }));
+                    FileInfo file = new FileInfo(filename);
+                    //if (file.Extension == ".txt")
+                    //{
 
 
                     string text = System.IO.File.ReadAllText(filename);
                     string[] pages = Split_Pages(text);
                     Regex rgx = new Regex(searchstring, RegexOptions.IgnoreCase);
-                    
-                    for (int i=0; i<pages.Length; i++)
+
+                    for (int i = 0; i < pages.Length; i++)
                     {
                         //MessageBox.Show(pages[i]);
 
                         foreach (Match m in rgx.Matches(pages[i]))
                         {
-                            
+
                             string pre_string = pages[i].Substring(0, m.Index);
                             string post_string = pages[i].Substring(m.Index + m.Length);
 
                             if (pre_string.Length > 200) { pre_string = pre_string.Substring(pre_string.Length - 200); } else { }
                             if (post_string.Length > 200) { post_string = post_string.Substring(0, 200); }
-
-                            SearchItem item = new SearchItem();
-                            item.file = file;
+                                Dispatcher.Invoke(new Action(() =>
+                                {
+                                    SearchItem item = new SearchItem();
+                                    item.file = file;
+                                
                             
-                            TextBlock buttonTextBlock =(TextBlock)item.Button_Namefile.FindName("Button_Namefile_TextBlock");
+
+                            TextBlock buttonTextBlock = (TextBlock)item.Button_Namefile.FindName("Button_Namefile_TextBlock");
                             TextBlock buttonTextBlockPdf = (TextBlock)item.Button_Namefile.FindName("Button_Namefile_TextBlock_pdf");
                             buttonTextBlock.Text = file.Name;
                             string pdfFullFileName = (file.FullName).Replace(".txt", ".pdf");
@@ -74,34 +115,41 @@ namespace WPF_PDF_Organizer
 
 
 
-                            item.Label_Page.Content = "Page "+(i+1).ToString();
+                            item.Label_Page.Content = "Page " + (i + 1).ToString();
+                                
 
-
-                            Paragraph paragraph = new Paragraph();
+                                Paragraph paragraph = new Paragraph();
                             paragraph.Inlines.Add("...");
                             paragraph.Inlines.Add(pre_string);
-                            paragraph.Inlines.Add(new Run(m.Value) { FontWeight = FontWeights.Bold, Background = Brushes.Yellow }) ;
+                            paragraph.Inlines.Add(new Run(m.Value) { FontWeight = FontWeights.Bold, Background = Brushes.Yellow });
                             paragraph.Inlines.Add(post_string);
                             paragraph.Inlines.Add("...");
                             item.RichTextBox_search.Document.Blocks.Clear();
                             item.RichTextBox_search.Document.Blocks.Add(paragraph);
                             StackPanel_Result_Search.Children.Add(item);
-                        }
+                                }));
+                            }
                     }
-                    Label_Nfinds.Content = StackPanel_Result_Search.Children.Count;
-                    
-                    
-                }
-                
-            }
-            //return null;
-        }
-        string[] Split_Pages(string text)
-        {
-            string[] result = Regex.Split(text, "---------\\d---------");
-            return result;
-        }
+                        Dispatcher.Invoke(new Action(() =>
+                        {
+                            Label_Nfinds.Content = StackPanel_Result_Search.Children.Count;
+                        }));
 
+                    //}
+
+                }
+                //return null;
+
+                string[] Split_Pages(string text)
+                {
+                    string[] result = Regex.Split(text, "---------\\d---------");
+                    return result;
+                }
+                });
+            }
+            catch { }
+
+        }
         #endregion
 
 

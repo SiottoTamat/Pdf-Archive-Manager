@@ -530,7 +530,10 @@ namespace WPF_PDF_Organizer
             window.TextBox_Directory.Text = TextBox_Dir.Text;
             window.Show();
             window.TextBox_Search.Text = TextBox_SearchBar.Text;
-            window.Search_In_Text(window.TextBox_Directory.Text, window.TextBox_Search.Text);
+            if(window.TextBox_Search.Text!="" & window.TextBox_Search.Text != null)
+            {
+                window.Search_In_Text(window.TextBox_Directory.Text, window.TextBox_Search.Text);
+            }
         }
 
         private void Make_Zotero_search()
@@ -653,7 +656,7 @@ namespace WPF_PDF_Organizer
                 int index = 0;
                 foreach (FileInfo file in templist)//(int i=0; i< templist.Count; i++) 
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
+                    Label_Info_Bottom_Right.Dispatcher.BeginInvoke(new Action(() =>
                     {
                         //List_View.Items.Add(templist[i]);
                         Label_Info_Bottom_Right.Content = $"Working on: {file.Name}  Processed:{index}";
@@ -699,6 +702,15 @@ namespace WPF_PDF_Organizer
                     TextBox_Dir.Text = fbd.SelectedPath;
                 }
                 ListDirectory(Tree_View, TextBox_Dir.Text);
+                List_View.Items.Clear();
+                DirectoryInfo nodeDirInfo = new DirectoryInfo(TextBox_Dir.Text);
+
+                foreach (FileInfo file in nodeDirInfo.GetFiles())
+                {
+                    Add_File_To_ListView(file);
+
+
+                }
             }
         }
         
