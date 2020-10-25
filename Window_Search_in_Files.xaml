@@ -21,7 +21,10 @@
             </CheckBox>
             <Label x:Name="Label_Counter" Content="Label" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="0,20,0,0"/>
         </Grid>
-        <GroupBox x:Name="GroupBox_Items" Grid.ColumnSpan="2" Header="" Margin="0" Grid.Row="1" Background="GhostWhite">
+        <GroupBox x:Name="GroupBox_Items"  Grid.ColumnSpan="2" Header="Results" Margin="0" Grid.Row="1">
+            <GroupBox.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+            </GroupBox.Background>
             <ScrollViewer>
                 <ScrollViewer.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>

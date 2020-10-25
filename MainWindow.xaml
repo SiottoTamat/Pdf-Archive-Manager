@@ -44,7 +44,7 @@
                 <MenuItem Header="Extract Highlights"/>-->
                 <MenuItem Header="Extract Comments and Highlights" Click="MenuItem_Extract_Comments_and_Highlights_Click"/>
                 <MenuItem Header="Extract All Text" Click="MenuItem_Extract_All_Text_Click"/>
-                <MenuItem Header="Check if pdf files have txt version" Click="MenuItem_Check_if_pdf_has_txt_Click"/>
+                <MenuItem Header="Find pdf files without txt version" Click="MenuItem_Check_if_pdf_has_txt_Click"/>
                 <MenuItem Header="Search in the text files" Click="MenuItem_Search_in_text_files_Click"/>
             </MenuItem>
             <!--<MenuItem Header="Database"/>-->

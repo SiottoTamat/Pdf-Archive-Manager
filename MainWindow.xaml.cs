@@ -33,14 +33,19 @@ namespace WPF_PDF_Organizer
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static string Zotero_Database_Path = @"C:\Users\Andrea\Desktop\TExt_for_Pdf\zotero.sqlite"; //@"Data Source=C:\\Users\\Andrea\\Desktop\\TExt_for_Pdf\\zotero.sqlite";
+        public static string Zotero_Database_Path = ""; //@"Data Source=C:\\Users\\Andrea\\Desktop\\TExt_for_Pdf\\zotero.sqlite";
         //ImageList imageList = new ImageList();
         public MainWindow()
         {
             
            // imageList.Images.Add()
             InitializeComponent();
-            TextBox_Dir.Text = @"D:\Google Drive\@_Work\@_Research";
+
+            
+
+
+
+            //TextBox_Dir.Text = "";
             if (TextBox_Dir.Text != "")
             {
                 ListDirectory(Tree_View, TextBox_Dir.Text);
@@ -127,7 +132,7 @@ namespace WPF_PDF_Organizer
                 Task.Factory.StartNew(() =>
                 {
                     File_Info_Textblock.Dispatcher.BeginInvoke(new Action(() => {
-                    File_Info_Textblock.Text = $"Folder:{Environment.NewLine}{fileinfo.DirectoryName}{Environment.NewLine}" +
+                    File_Info_Textblock.Text = $"Folder:{Environment.NewLine}{fileinfo.DirectoryName}{Environment.NewLine}{Environment.NewLine}" +
                         $"Type: {fileinfo.Extension}{Environment.NewLine}{Environment.NewLine}" +
                         $"Size: {BytesToString(fileinfo.Length)}";
                     }));
@@ -203,6 +208,7 @@ namespace WPF_PDF_Organizer
                 //MessageBox.Show(tree_Item.Tag.ToString());
                 string folderPath = tree_Item.Tag.ToString();
                 List_View.Items.Clear();
+                
                 DirectoryInfo nodeDirInfo = new DirectoryInfo(folderPath);
 
                 foreach (FileInfo file in nodeDirInfo.GetFiles())
