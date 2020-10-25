@@ -6,22 +6,40 @@
         xmlns:local="clr-namespace:WPF_PDF_Organizer"
         mc:Ignorable="d"
         Title="Search in Files" Height="450" Width="800">
-    <Grid Background="LightGray">
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+        </Grid.Background>
         <Grid x:Name="GeneralGrid" Margin="0">
             <Button x:Name="Button_TestCreateItem" Content="Search" HorizontalAlignment="Right" Margin="0,10" Width="75" Click="Button_TestCreateItem_Click"/>
             <Label x:Name="Label_N_finds" Content="Results:" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Label x:Name="Label_Nfinds" Content="" HorizontalAlignment="Left" Margin="72,0,0,0" VerticalAlignment="Top"/>
-            <CheckBox x:Name="CheckBox_In_Subfolders" Content="Look in SubFolders" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom"/>
+            <CheckBox x:Name="CheckBox_In_Subfolders" Content="Look in SubFolders" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom">
+                <CheckBox.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                </CheckBox.Background>
+            </CheckBox>
             <Label x:Name="Label_Counter" Content="Label" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="0,20,0,0"/>
         </Grid>
         <GroupBox x:Name="GroupBox_Items" Grid.ColumnSpan="2" Header="" Margin="0" Grid.Row="1" Background="GhostWhite">
             <ScrollViewer>
+                <ScrollViewer.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                </ScrollViewer.Background>
                 <StackPanel x:Name="StackPanel_Result_Search" Margin="0"/>
             </ScrollViewer>
 
         </GroupBox>
-        <TextBox x:Name="TextBox_Directory" Grid.Column="1" Height="22" Margin="10,10,10,0" TextWrapping="Wrap" Text="TextBox Dir" VerticalAlignment="Top" Width="640"/>
-        <TextBox x:Name="TextBox_Search" Grid.Column="1" Margin="10,0,10,10" TextWrapping="Wrap" Text="TextBox search" VerticalAlignment="Bottom" Height="22" Width="640"/>
+        <TextBox x:Name="TextBox_Directory" Grid.Column="1" Height="22" Margin="10,10,10,0" TextWrapping="Wrap" Text="TextBox Dir" VerticalAlignment="Top" Width="640" MouseDoubleClick="TextBox_Directory_DoubleClick">
+            <TextBox.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+            </TextBox.Background>
+        </TextBox>
+        <TextBox x:Name="TextBox_Search" Grid.Column="1" Margin="10,0,10,10" TextWrapping="Wrap" Text="TextBox search" VerticalAlignment="Bottom" Height="22" Width="640">
+            <TextBox.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+            </TextBox.Background>
+        </TextBox>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="5*"/>

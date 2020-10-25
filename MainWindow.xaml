@@ -6,8 +6,14 @@
         xmlns:local="clr-namespace:WPF_PDF_Organizer"
         mc:Ignorable="d"
         Title="PDF Organizer" Height="768" Width="1024">
+    <Window.Background>
+        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
+    </Window.Background>
     <DockPanel x:Name="Dockpanel_wrapper">
         <Menu x:Name="Menu" Margin="0,0,0,0" VerticalAlignment="Top" DockPanel.Dock="Top">
+            <Menu.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+            </Menu.Background>
             <MenuItem Header="_File">
                 <MenuItem Header="_Choose Archive Directory"/>
                 <MenuItem Header="_Exit" Click="Menu_Exit_Click"/>
@@ -29,11 +35,14 @@
         </Menu>
 
         <Grid x:Name="Main_Grid">
+            <Grid.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}"/>
+            </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="1*"/>
-                
+
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="18*"/>
@@ -59,6 +68,12 @@
                             </Setter>
                         </Style>
                     </TreeView.Resources>
+                    <TreeView.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
+                    </TreeView.BorderBrush>
+                    <TreeView.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                    </TreeView.Background>
                 </TreeView>
             </GroupBox>
             <!--<Grid x:Name="General_Grid" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792">
@@ -70,35 +85,45 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
-            
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
 
-                </Grid.RowDefinitions>
-
-                <GroupBox x:Name="GroupBox_Directory"  Header="Archive Directory" HorizontalAlignment="Left" Height="46" Margin="10,10,0,0" VerticalAlignment="Top" Width="488">
-                    <TextBox x:Name="TextBox_Dir"  TextWrapping="Wrap" Margin="0" MouseDoubleClick="TextBox_Dir_MouseDoubleClick"/>
-
-                </GroupBox>
-                <Grid Grid.Row="1">
+                <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1.5*"/>
 
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="Button_Search_In_Files"  Content="Find in Files" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"  Click="Button_Search_In_Files_Click" Width="72"/>
-                        <Button x:Name="Button_Search"  Content="Find Files" HorizontalAlignment="Left" Margin="10,0,0,0" Click="Button_Search_Click" VerticalAlignment="Center" Width="60"/>
-                        <Button x:Name="Button_Search_In_Zotero"  Content="Find in Zotero" HorizontalAlignment="Left" Margin="10,0,0,0" Click="Button_Search_In_Zotero_Click" VerticalAlignment="Center" Width="82"/>
+
+                    <GroupBox x:Name="GroupBox_Directory"  Header="Archive Folder" HorizontalAlignment="Left" Height="46" Margin="10,10,0,0" VerticalAlignment="Top" Width="488">
+                        <TextBox x:Name="TextBox_Dir"  TextWrapping="Wrap" Margin="0" MouseDoubleClick="TextBox_Dir_MouseDoubleClick">
+                            <TextBox.Background>
+                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                            </TextBox.Background>
+                        </TextBox>
+
+                    </GroupBox>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1.5*"/>
+
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="Button_Search"  Content=" Find Files " ToolTip="Search files by name" HorizontalAlignment="Left" Margin="10,0,0,0" Click="Button_Search_Click" Width="60"/>
+                            <Button x:Name="Button_Search_In_Zotero"  Content=" Find in Zotero " HorizontalAlignment="Left" Margin="10,0,0,0" Click="Button_Search_In_Zotero_Click" Width="82"/>
+                            <Button x:Name="Button_Search_In_Files"  Content=" Search Into Text Files " HorizontalAlignment="Left" Margin="10,0,0,0"  Click="Button_Search_In_Files_Click" />
 
                         </StackPanel>
-                    
-                    <TextBox x:Name="TextBox_SearchBar" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="24" Canvas.Left="10" Canvas.Top="110" Margin="10,0,10,10"/>
+                        <GroupBox Grid.Row="1" Header="Search Bar">
+                            <TextBox x:Name="TextBox_SearchBar"  TextWrapping="Wrap" Canvas.Left="10" Canvas.Top="110" Margin="10,0" Height="23">
+                                <TextBox.Background>
+                                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                                </TextBox.Background>
+                            </TextBox>
+
+                        </GroupBox>
+                    </Grid>
                 </Grid>
-            </Grid>
-                <GroupBox x:Name="ListView_groupbox" Header="ListView" Grid.Column="1" Grid.Row="1" SizeChanged="ListView_groupbox_SizeChanged">
+                <GroupBox x:Name="ListView_groupbox" Header="Results" Grid.Column="1" Grid.Row="1" SizeChanged="ListView_groupbox_SizeChanged">
                     <ListView x:Name="List_View" Margin="10" SizeChanged="List_View_SizeChanged" SelectionChanged="List_View_SelectionChanged" MouseDoubleClick="List_View_MouseDoubleClick">
 
                         <ListView.Resources>
@@ -111,6 +136,12 @@
                             </Style>
 
                         </ListView.Resources>
+                        <ListView.BorderBrush>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
+                        </ListView.BorderBrush>
+                        <ListView.Background>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                        </ListView.Background>
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding Name}"/>
@@ -141,12 +172,20 @@
                 </Grid.RowDefinitions>
                 <GroupBox x:Name="Metadata_Groupbox" Header="Pdf Metadata" Grid.Row="1">
                     <ScrollViewer>
-                        <TextBlock x:Name="Info_Textblock" TextWrapping="Wrap" Margin="0,0,0,0" Background="#FFF3F3F3" MinHeight="4"/>
+                        <TextBlock x:Name="Info_Textblock" TextWrapping="Wrap" Margin="0,0,0,0" MinHeight="4">
+                            <TextBlock.Background>
+                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                            </TextBlock.Background>
+                        </TextBlock>
                     </ScrollViewer>
                 </GroupBox>
                 <GroupBox x:Name="Zotero_Groupbox" Header="Zotero data" Grid.Row="2">
                     <ScrollViewer>
-                        <TextBlock x:Name="Zot_Info_Textblock" TextWrapping="Wrap" Margin="0,0,0,0" Background="#FFF3F3F3" MinHeight="4"/>
+                        <TextBlock x:Name="Zot_Info_Textblock" TextWrapping="Wrap" Margin="0,0,0,0" MinHeight="4">
+                            <TextBlock.Background>
+                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                            </TextBlock.Background>
+                        </TextBlock>
                     </ScrollViewer>
                 </GroupBox>
                 <GroupBox x:Name="GroupBox_Filters" Grid.Row="0"  Margin="5">
@@ -160,7 +199,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*"/>
                             <RowDefinition Height="2*"/>
-                            
+
                         </Grid.RowDefinitions>
                         <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                     </Grid>
@@ -175,12 +214,12 @@
 
             </Grid>
             <Grid Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1">
-                 <Label x:Name="Label_Info_Bottom_Right" Content="" Grid.Column="2"  Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.ColumnSpan="3" Margin="0,0,5,0"/>
-   
-            </Grid> 
+                <Label x:Name="Label_Info_Bottom_Right" Content="" Grid.Column="2"  Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.ColumnSpan="3" Margin="0,0,5,0"/>
+
+            </Grid>
 
 
         </Grid>
-        
+
     </DockPanel>
 </Window>

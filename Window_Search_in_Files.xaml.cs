@@ -163,5 +163,19 @@ namespace WPF_PDF_Organizer
             Search_In_Text(TextBox_Directory.Text, TextBox_Search.Text);
         }
         #endregion
+
+        private void TextBox_Directory_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    TextBox_Directory.Text = fbd.SelectedPath;
+                }
+                
+            }
+        }
     }
 }

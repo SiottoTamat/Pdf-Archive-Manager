@@ -530,10 +530,11 @@ namespace WPF_PDF_Organizer
             window.TextBox_Directory.Text = TextBox_Dir.Text;
             window.Show();
             window.TextBox_Search.Text = TextBox_SearchBar.Text;
-            if(window.TextBox_Search.Text!="" & window.TextBox_Search.Text != null)
+            if (window.TextBox_Search.Text != "" & window.TextBox_Search.Text != null)
             {
                 window.Search_In_Text(window.TextBox_Directory.Text, window.TextBox_Search.Text);
             }
+            
         }
 
         private void Make_Zotero_search()
@@ -716,23 +717,31 @@ namespace WPF_PDF_Organizer
         
         private void Menu_Exit_Click(object sender, RoutedEventArgs e)
         {
-
+            System.Windows.Application.Current.Shutdown();
         }
 
 
         private void MenuItem_Check_if_pdf_has_txt_Click(object sender, RoutedEventArgs e)
         {
             string dirpath = TextBox_Dir.Text;
+            if (Tree_View.SelectedItem != null)
+            {
+                dirpath = ((TreeViewItem)Tree_View.SelectedItem).Tag.ToString();
+            }
+            
             DirectoryInfo nodeDirInfo = new DirectoryInfo(dirpath);
             List_View.Items.Clear();
+            int numfiles_without_txt = 0;
             foreach (FileInfo file in nodeDirInfo.GetFiles("*.pdf", SearchOption.AllDirectories))
             {
                 string nametxt = file.FullName.Replace(".pdf", ".txt");
                 if (!File.Exists(nametxt))
                 {
                     Add_File_To_ListView(file);
+                    numfiles_without_txt++;
                 }
             }
+            Label_Info_Bottom_Right.Content = $"Total number of pdf files without txt version: {numfiles_without_txt}";
         }
 
         private void MenuItem_Search_in_text_files_Click(object sender, RoutedEventArgs e)

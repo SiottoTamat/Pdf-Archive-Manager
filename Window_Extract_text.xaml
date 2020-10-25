@@ -8,11 +8,17 @@
         Title="Extract" Height="450" Width="800">
     <Grid>
         <Grid  Margin="0" >
+            <Grid.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+            </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="10*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <RichTextBox x:Name="RichTextBox_Extract" Margin="5" Background="#FFF3F3F3">
+            <RichTextBox x:Name="RichTextBox_Extract" Margin="5">
+                <RichTextBox.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                </RichTextBox.Background>
                 <FlowDocument>
                     <Paragraph>
                         <Run Text=""/>
