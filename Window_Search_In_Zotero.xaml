@@ -6,12 +6,19 @@
         xmlns:local="clr-namespace:WPF_PDF_Organizer"
         mc:Ignorable="d"
         Title="Results of the search in Zotero" Height="450" Width="800">
-    <Grid>
+    <DockPanel x:Name="Dockpanel_wrapper">
+        <Menu x:Name="Menu" Margin="0,0,0,0" VerticalAlignment="Top" DockPanel.Dock="Top">
+            <MenuItem Header="Zotero">
+                <MenuItem Header="Find Zotero Database file" Click="Menuitem_ZoteroFindDb"/>
+            </MenuItem>
+        </Menu>
+        <Grid>
         
         <Grid.RowDefinitions>
             
-            <RowDefinition Height="2*"/>
             <RowDefinition Height="6*"/>
+            <RowDefinition Height="12*"/>
+            <RowDefinition Height="1.2*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row ="0">
             <Grid.RowDefinitions>
@@ -25,21 +32,41 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Search" Margin="5" Grid.Row="2" Content="Search in Zotero" Click="Button_Search_Click" Grid.RowSpan="2"/>
-            <Label Content="Author:" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Top"/>
-            <Label Content="Title:" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Top"/>
-            <Label Content="Type:" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Top"/>
-            <Label Content="Date:" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Top"/>
+            <Button x:Name="Search" Margin="5" Grid.Row="0" Content="Search in Zotero" Click="Button_Search_Click" Grid.RowSpan="2"/>
+            <Button x:Name="Select_item" Margin="5" Grid.Row="3" Content="Use Selected Result" Click="Button_Use_Selected_Click" Grid.RowSpan="1"/>
+            <Label Content="Author:" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top"/>
+            <Label Content="Title:" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top"/>
+            <Label Content="Type:" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top"/>
+            <Label Content="Date:" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top"/>
 
-            <TextBox x:Name="TextBox_SearchBar_Author" Grid.Row ="0" Grid.Column="2" Margin="5" TextWrapping="Wrap" Text="" VerticalAlignment="Center" MinHeight="18"/>
-            <TextBox x:Name="TextBox_SearchBar_Title" Grid.Row ="1" Grid.Column="2" Margin="5" TextWrapping="Wrap" Text="" VerticalAlignment="Center" MinHeight="18"/>
-            <TextBox x:Name="TextBox_SearchBar_Type" Grid.Row ="2" Grid.Column="2" Margin="5" TextWrapping="Wrap" Text="" VerticalAlignment="Center" MinHeight="18"/>
-            <TextBox x:Name="TextBox_SearchBar_Date" Grid.Row ="3" Grid.Column="2" Margin="5" TextWrapping="Wrap" Text="" VerticalAlignment="Center" MinHeight="18"/>
-        </Grid>
-        <GroupBox Header="Results from Zotero" Margin="5" Grid.Row="2">
-            <DataGrid x:Name="DataGrid_Zotero_Results" Margin="5" HorizontalGridLinesBrush="#FFCCCEDB" VerticalGridLinesBrush="#FFCCCEDB"/>
+            <TextBox x:Name="TextBox_SearchBar_Author" Grid.Row ="0" Grid.Column="2" Margin="5,5,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" MinHeight="18">
+                    <TextBox.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </TextBox.Background>
+                </TextBox>
+                <TextBox x:Name="TextBox_SearchBar_Title" Grid.Row ="1" Grid.Column="2" Margin="5,5,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" MinHeight="18">
+                    <TextBox.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </TextBox.Background>
+                </TextBox>
+                <TextBox x:Name="TextBox_SearchBar_Type" Grid.Row ="2" Grid.Column="2" Margin="5,5,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" MinHeight="18">
+                    <TextBox.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </TextBox.Background>
+                </TextBox>
+                <TextBox x:Name="TextBox_SearchBar_Date" Grid.Row ="3" Grid.Column="2" Margin="5,5,5,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" MinHeight="18">
+                    <TextBox.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    </TextBox.Background>
+                </TextBox>
+            </Grid>
+        <GroupBox Header="Results from Zotero" Margin="5" Grid.Row="1">
+            <DataGrid x:Name="DataGrid_Zotero_Results" Margin="5" HorizontalGridLinesBrush="#FFCCCEDB" VerticalGridLinesBrush="#FFCCCEDB" IsReadOnly="True" CanUserAddRows="false"/>
         </GroupBox>
-        
+        <Label Content="Zotero Database: " HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Center"/>
+        <Label x:Name="Label_Zotero_Database_Path" Content="None" Margin="109,0,0,0" Grid.Row="2" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+
 
     </Grid>
+    </DockPanel>
 </Window>

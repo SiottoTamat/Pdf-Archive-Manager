@@ -22,6 +22,7 @@ using iText.Kernel.Pdf.Canvas.Parser.Listener;
 using iText.Layout;
 using System.Data.SQLite;
 using Org.BouncyCastle.Crypto.Signers;
+using Microsoft.Win32;
 
 //using iText.Kernel.Pdf.;
 
@@ -32,14 +33,18 @@ namespace WPF_PDF_Organizer
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static string Zotero_Database_Path = @"C:\Users\Andrea\Desktop\TExt_for_Pdf\zotero.sqlite"; //@"Data Source=C:\\Users\\Andrea\\Desktop\\TExt_for_Pdf\\zotero.sqlite";
         //ImageList imageList = new ImageList();
         public MainWindow()
         {
             
            // imageList.Images.Add()
             InitializeComponent();
-            TextBox_Dir.Text = "D:\\Google Drive\\@_Work\\@_Research\\@_Sources";
-            ListDirectory(Tree_View, TextBox_Dir.Text);
+            TextBox_Dir.Text = @"D:\Google Drive\@_Work\@_Research";
+            if (TextBox_Dir.Text != "")
+            {
+                ListDirectory(Tree_View, TextBox_Dir.Text);
+            }
         }
         #region Treeview
         private static TreeViewItem CreateDirectoryNode(DirectoryInfo directoryInfo)
@@ -229,8 +234,8 @@ namespace WPF_PDF_Organizer
         public static List<ZoteroField[]> QueryZotero(string[] query)
         {
             List<ZoteroField[]> endlist = new List<ZoteroField[]>();
-            
-            string cs = @"Data Source=C:\\Users\\Andrea\\Desktop\\TExt_for_Pdf\\zotero.sqlite";
+            string path = Zotero_Database_Path;
+            string cs = $"Data Source ={Zotero_Database_Path}";
             using var con = new SQLiteConnection(cs,true) ;
             
             con.Open();
@@ -532,29 +537,33 @@ namespace WPF_PDF_Organizer
         {
             Window_Search_In_Zotero window = new Window_Search_In_Zotero();
             window.Show();
-            //string query = TextBox_SearchBar.Text;
-            //List<ZoteroField[]> result = QueryZotero(query);
             
-
-            //if (result != null)
-            //{
-            //    string beautify_result = "";
-            //    foreach (ZoteroField[] z in result)
-            //    {
-            //        foreach (ZoteroField i in z)
-            //        {
-            //            if (z != null)
-            //            {
-            //                beautify_result += $"{i.ColumnTitle}: {i.Value}{Environment.NewLine}";
-            //            }
-            //        }
-                    
-            //    }
-            //    Zot_Info_Textblock.Text = beautify_result;
-                //MessageBox.Show(beautify_result);
-            //}
         }
-        
+
+        public void Show_Zotero_Data(string title, string author)
+        {
+            string[] queryArr = new string[] { author, title, "", "" };
+            List<ZoteroField[]> answer = QueryZotero(queryArr);
+            if (answer != null) 
+            { 
+            ZoteroField[] result = answer[0];
+            
+            
+                string beautify_result = "";
+                
+                    foreach (ZoteroField i in result)
+                    {
+                        if (i != null)
+                        {
+                            beautify_result += $"{i.ColumnTitle}: {i.Value}{Environment.NewLine}";
+                        }
+                    }
+
+
+            Zot_Info_Textblock.Text = beautify_result;
+            }
+        }
+
         #endregion
 
         #region Buttons and Clicks
@@ -630,32 +639,47 @@ namespace WPF_PDF_Organizer
 
 
             }
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    Label_Info_Total_N_Files.Content = $"{templist.Count.ToString()} Files without txt version. ";
-                    List_View.Items.Clear();
+                //Dispatcher.BeginInvoke(new Action(() =>
+                //{
+                //    Label_Info_Bottom_Right.Content = $"Working on: {((ListView_Item)List_View.Items[i]).Name}  Processed:{i}"; 
+                //    //$"{templist.Count.ToString()} Files without txt version. Total number of Files: ";
+                //    List_View.Items.Clear();
 
-                }));
-                
-                    
-                for (int i=0; i< templist.Count; i++) 
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        List_View.Items.Add(templist[i]);
-                    }));
-                }
-
-                for(int i=0; i<List_View.Items.Count; i++)
+                //}));
+                //Dispatcher.BeginInvoke(new Action(() =>
+                //{
+                //    List_View.Items.Clear();
+                //}));
+                int index = 0;
+                foreach (FileInfo file in templist)//(int i=0; i< templist.Count; i++) 
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        Label_InfoCommands.Content = $"Working on: {((ListView_Item)List_View.Items[i]).Name}  Processed:{i}";
-
+                        //List_View.Items.Add(templist[i]);
+                        Label_Info_Bottom_Right.Content = $"Working on: {file.Name}  Processed:{index}";
+                        //Label_Info_Bottom_Right.Width = System.Windows.Forms.TextRenderer.MeasureText(Label_Info_Bottom_Right.Content, Label_Info_Bottom_Right.Font).Width;
+                        //Label_Info_Bottom_Right.aut
                     }));
-                    Extract_Text(((ListView_Item)List_View.Items[i]).Path);
-                    //string fileProcessed = System.IO.Path.GetFileName(address);
+                    Extract_Text(file.FullName);
+                    index++;
+                    //Dispatcher.BeginInvoke(new Action(() =>
+                    //{
+
+
+                    //}));
+
                 }
+
+                //for (int i = 0; i < List_View.Items.Count; i++)
+                //{
+                //    Dispatcher.BeginInvoke(new Action(() =>
+                //    {
+                //        Label_Info_Bottom_Right.Content = $"Working on: {((ListView_Item)List_View.Items[i]).Name}  Processed:{i}";
+
+                //    }));
+                //    Extract_Text(((ListView_Item)List_View.Items[i]).Path);
+                //    //string fileProcessed = System.IO.Path.GetFileName(address);
+                //}
 
 
 
@@ -726,7 +750,16 @@ namespace WPF_PDF_Organizer
         {
             Make_Zotero_search();
         }
-
+        private void Menuitem_ZoteroFindDb(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog window = new OpenFileDialog();
+            window.Filter = "SQLite Database File (*.sqlite) |*.sqlite";
+            if (window.ShowDialog() == true)
+            {
+                Zotero_Database_Path = window.FileName;
+                Label_Zotero_Database.Content = Zotero_Database_Path;
+            }
+        }
 
         #endregion
 
@@ -802,8 +835,9 @@ namespace WPF_PDF_Organizer
 
 
 
+
         #endregion
 
-       
+        
     }
 }

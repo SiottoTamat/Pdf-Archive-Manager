@@ -16,13 +16,13 @@
                 <!--<MenuItem Header="Extract Comments"/>
                 <MenuItem Header="Extract Highlights"/>-->
                 <MenuItem Header="Extract Comments and Highlights" Click="MenuItem_Extract_Comments_and_Highlights_Click"/>
-                <MenuItem Header="Extract All Text"/>
+                <MenuItem Header="Extract All Text" Click="MenuItem_Extract_All_Text_Click"/>
                 <MenuItem Header="Check if pdf files have txt version" Click="MenuItem_Check_if_pdf_has_txt_Click"/>
                 <MenuItem Header="Search in the text files" Click="MenuItem_Search_in_text_files_Click"/>
             </MenuItem>
             <!--<MenuItem Header="Database"/>-->
             <MenuItem Header="_Zotero">
-                <MenuItem Header="Load CSV Zotero Database"/>
+                <MenuItem Header="Find Zotero Database file" Click="Menuitem_ZoteroFindDb"/>
                 <MenuItem Header="Query" Click="Menuitem_ZoteroQuery"/>
 
             </MenuItem>
@@ -167,12 +167,17 @@
                 </GroupBox>
 
             </Grid>
-            <Grid Grid.Row="1" Grid.Column="1">
-                
-                <Label x:Name="Label_Info_Total_N_Files" Content="test" Margin="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Label x:Name="Label_InfoCommands" Content="test" Margin="0" Grid.Row="4" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
 
-            </Grid>  
+            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+
+                <Label x:Name="Label_ZoteroIntro" Content="Zotero Database:" Margin="5,0,0,0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Label x:Name="Label_Zotero_Database" Content="" Margin="100,0,0,0" Grid.Row="4" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+            </Grid>
+            <Grid Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1">
+                 <Label x:Name="Label_Info_Bottom_Right" Content="" Grid.Column="2"  Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.ColumnSpan="3" Margin="0,0,5,0"/>
+   
+            </Grid> 
 
 
         </Grid>

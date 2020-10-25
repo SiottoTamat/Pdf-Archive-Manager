@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace WPF_PDF_Organizer
         public Window_Search_In_Zotero()
         {
             InitializeComponent();
+            Label_Zotero_Database_Path.Content = MainWindow.Zotero_Database_Path;
         }
 
         
@@ -48,7 +50,7 @@ namespace WPF_PDF_Organizer
             
             columnDate.Binding.StringFormat = "dd/MM/yyyy";
         }
-        public List<MainWindow.Zotero_Query_Result> List_Zotero_Search(string[] queryArr)
+        public  List<MainWindow.Zotero_Query_Result> List_Zotero_Search(string[] queryArr)
         {
             //string query = TextBox_SearchBar.Text;
             List<MainWindow.ZoteroField[]> result =  MainWindow.QueryZotero(queryArr);
@@ -123,6 +125,25 @@ namespace WPF_PDF_Organizer
 
 
             return dateclean;
+        }
+
+        private void Menuitem_ZoteroFindDb(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog window = new OpenFileDialog();
+            window.Filter = "SQLite Database File (*.sqlite) |*.sqlite";
+            if (window.ShowDialog() == true)
+            {
+                Zotero_Database_Path = window.FileName;
+                Label_Zotero_Database_Path.Content = Zotero_Database_Path;
+                
+            }
+        }
+
+        private void Button_Use_Selected_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.Zotero_Query_Result selecteditemDG = (MainWindow.Zotero_Query_Result)DataGrid_Zotero_Results.SelectedItem;
+            MainWindow window = (MainWindow)Application.Current.MainWindow;
+            window.Show_Zotero_Data(selecteditemDG.Title, selecteditemDG.Author);
         }
     }
 }
