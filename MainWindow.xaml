@@ -74,7 +74,7 @@
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>-->
             <GroupBox x:Name="Tree_View_Group" Header="Folders" Grid.Column="0" Grid.Row="0" >
-                <TreeView x:Name="Tree_View" Margin="2,10,0,0" >
+                <TreeView x:Name="Tree_View" ToolTip="The structure of your folder/archive. Select a node to show and work on the files." Margin="2,10,0,0" >
                     <TreeView.Resources>
                         <Style TargetType="{x:Type TreeViewItem}">
                             <Setter Property="HeaderTemplate">
@@ -120,7 +120,7 @@
                     </Grid.RowDefinitions>
 
                     <GroupBox x:Name="GroupBox_Directory"  Header="Archive Folder" Height="46" Margin="0,10,0,0">
-                        <TextBox x:Name="TextBox_Dir"  TextWrapping="Wrap" Margin="10,0,0,0" MouseDoubleClick="TextBox_Dir_MouseDoubleClick">
+                        <TextBox x:Name="TextBox_Dir" ToolTip="Double click here to select the main folder where you organized your pdf archive." TextWrapping="Wrap" Margin="10,0,0,0" MouseDoubleClick="TextBox_Dir_MouseDoubleClick">
                             <TextBox.Background>
                                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
                             </TextBox.Background>
@@ -135,12 +135,12 @@
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
                             <Button x:Name="Button_Search"  Content=" Find Files " ToolTip="Search files by name" HorizontalAlignment="Left" Margin="16,5,0,5" Click="Button_Search_Click" Width="60"/>
-                            <Button x:Name="Button_Search_In_Zotero"  Content=" Find in Zotero " HorizontalAlignment="Left" Margin="10,5,0,5" Click="Button_Search_In_Zotero_Click" Width="82"/>
-                            <Button x:Name="Button_Search_In_Files"  Content=" Search Into Text Files " HorizontalAlignment="Left" Margin="10,5,0,5"  Click="Button_Search_In_Files_Click" />
+                            <Button x:Name="Button_Search_In_Zotero"  Content=" Find in Zotero " ToolTip="Search for records in Zotero" HorizontalAlignment="Left" Margin="10,5,0,5" Click="Button_Search_In_Zotero_Click" Width="82"/>
+                            <Button x:Name="Button_Search_In_Files"  Content=" Search Into Text Files " ToolTip="Search for specific words or regex commands in the txt files" HorizontalAlignment="Left" Margin="10,5,0,5"  Click="Button_Search_In_Files_Click" />
 
                         </StackPanel>
                         <GroupBox Grid.Row="0" Header="Search Bar" Margin="0">
-                            <TextBox x:Name="TextBox_SearchBar"  TextWrapping="Wrap" Canvas.Left="10" Canvas.Top="110" Margin="10,0,0,0" Height="23">
+                            <TextBox x:Name="TextBox_SearchBar" ToolTip="You found the search bar!" TextWrapping="Wrap" Canvas.Left="10" Canvas.Top="110" Margin="10,0,0,0" Height="23">
                                 <TextBox.Background>
                                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
                                 </TextBox.Background>
@@ -200,7 +200,7 @@
                 </Grid.RowDefinitions>
                 <GroupBox x:Name="Metadata_Groupbox" Header="Pdf Metadata" Grid.Row="1">
                     <ScrollViewer>
-                        <TextBlock x:Name="Info_Textblock" TextWrapping="Wrap" Margin="0,0,0,0" MinHeight="4">
+                        <TextBlock x:Name="Info_Textblock" ToolTip="The Metadata of the selected pdf file." TextWrapping="Wrap" Margin="0,0,0,0" MinHeight="4">
                             <TextBlock.Background>
                                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
                             </TextBlock.Background>
@@ -209,7 +209,7 @@
                 </GroupBox>
                 <GroupBox x:Name="Zotero_Groupbox" Header="Zotero data" Grid.Row="2">
                     <ScrollViewer>
-                        <TextBlock x:Name="Zot_Info_Textblock" TextWrapping="Wrap" Margin="0,0,0,0" MinHeight="4">
+                        <TextBlock x:Name="Zot_Info_Textblock" ToolTip="Here you can see specific Zotero records." TextWrapping="Wrap" Margin="0,0,0,0" MinHeight="4">
                             <TextBlock.Background>
                                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
                             </TextBlock.Background>
@@ -218,7 +218,7 @@
                 </GroupBox>
                 <GroupBox x:Name="GroupBox_Filters" Header="File Info" Grid.Row="0">
                     <ScrollViewer>
-                        <TextBlock x:Name="File_Info_Textblock" TextWrapping="Wrap" Margin="0,0,0,0" MinHeight="4">
+                        <TextBlock x:Name="File_Info_Textblock" ToolTip="General informations about the selected file." TextWrapping="Wrap" Margin="0,0,0,0" MinHeight="4">
                             <TextBlock.Background>
                                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
                             </TextBlock.Background>
