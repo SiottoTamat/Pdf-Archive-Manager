@@ -148,6 +148,8 @@ namespace WPF_PDF_Organizer
             Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
             saveFileDialog.DefaultExt = "rtf";
             saveFileDialog.AddExtension = true;
+            saveFileDialog.Filter =
+            "Rich text files (*.rtf)|*.rtf|All files (*.*)|*.*";
             List<SearchItem> copylist = new List<SearchItem>();
              foreach (SearchItem item in StackPanel_Result_Search.Children) 
             {
