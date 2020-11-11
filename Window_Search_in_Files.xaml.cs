@@ -165,6 +165,15 @@ namespace WPF_PDF_Organizer
                 {
                     bool newname = false;
                     Paragraph paragraphTitle = new Paragraph();
+                    paragraphTitle.TextAlignment = TextAlignment.Center;
+
+                    Paragraph paragraphSeparator = new Paragraph();
+                    paragraphSeparator.TextAlignment = TextAlignment.Center;
+                    string fileSeparator = $"{Environment.NewLine}________________________{Environment.NewLine}";
+                    paragraphSeparator.Inlines.Add(new Run(fileSeparator));
+
+
+
                     Paragraph paragraphPage = new Paragraph();
                     string separator = $"{item.Label_Page.Content}";
                     paragraphPage.Inlines.Add(new Run(separator) { FontWeight = FontWeights.Bold });
@@ -173,6 +182,7 @@ namespace WPF_PDF_Organizer
                     string newfilename = item.file.Name;
                     if (newfilename != oldfilename)
                     {
+                        
                         string titleline = $"{newfilename}: {Environment.NewLine}";
                         paragraphTitle.Inlines.Add(new Run(titleline) { FontWeight = FontWeights.Bold });
 
@@ -192,52 +202,17 @@ namespace WPF_PDF_Organizer
 
 
 
-                    //targetdocument = item.RichTextBox_search.Document;
+                    
                     if (newname)
                     {
+                        targetdocument.Blocks.InsertBefore(targetdocument.Blocks.LastBlock, paragraphSeparator);
                         targetdocument.Blocks.InsertBefore(targetdocument.Blocks.LastBlock, paragraphTitle);
                     }
                     
                     targetdocument.Blocks.InsertBefore(targetdocument.Blocks.LastBlock, paragraphPage);
 
 
-                    //List<Block> maincontentblock = item.RichTextBox_search.Document.Blocks.ToList();
-
-                    //for (int i = 0; i < item.RichTextBox_search.Document.Blocks.Count; i++)
-
-                    //{
-
-                    //    targetdocument.Blocks.Add(item.RichTextBox_search.Document.Blocks.ElementAt(i).);
-
-                    //}
-                    //item.RichTextBox_search.Document = targetdocument;
-
-
-
-
-
-                    //foreach (Block block in item.RichTextBox_search.Document.Blocks)
-                    //{
-                    //    targetdocument.Blocks.Add(block);
-                    //}
-                    //targetdocument.Blocks.AddRange(maincontentblock);
-
-
-
-
-                    ////temp.Document.Blocks.Add(paragraphTitle);
-                    //Block[] Blockarray = new Block[item.RichTextBox_search.Document.Blocks.Count];
-                    //item.RichTextBox_search.Document.Blocks.CopyTo(Blockarray,0);
-                    //foreach (Paragraph para in Blockarray)
-                    //{
-                    //    temp.Document.Blocks.Add(para);
-                    //    temp.Document.Blocks.InsertBefore(temp.Document.Blocks.FirstBlock,paragraphTitle);
-                    //    //item.RichTextBox_search.Document.Blocks.Add(para);
-                    //}
-                    ////item.RichTextBox_search.SelectAll();
-                    ////item.RichTextBox_search.Copy();
-                    ////paragraph2.
-                    ////temp.Paste();
+                    
                 }
 
                 try
