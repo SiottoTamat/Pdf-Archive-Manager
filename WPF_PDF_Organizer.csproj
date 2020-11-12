@@ -103,9 +103,12 @@
     <Compile Include="SearchItem.xaml.cs">
       <DependentUpon>SearchItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SQL_Queries.cs" />
+    <Compile Include="Static_Classes.cs" />
     <Compile Include="Window_Extract_text.xaml.cs">
       <DependentUpon>Window_Extract_text.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window_options.xaml.cs">
+      <DependentUpon>Window_options.xaml</DependentUpon>
     </Compile>
     <Compile Include="Window_Search_in_Files.xaml.cs">
       <DependentUpon>Window_Search_in_Files.xaml</DependentUpon>
@@ -130,6 +133,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Window_Extract_text.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_options.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

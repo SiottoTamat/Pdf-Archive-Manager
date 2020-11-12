@@ -264,4 +264,9 @@ WHERE deletedItems.itemID IS NULL";
 
 
     }
+
+    public static class Options
+    {
+        public static int n_char_showed_search = 400; // this integer set the option regarding how much text to shof around the findings
+    }
 }

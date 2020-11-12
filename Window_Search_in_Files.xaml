@@ -14,6 +14,9 @@
             <MenuItem Header="Save">
                 <MenuItem Header="Save Results as a .rtf file" Click="Menuitem_SaveAs_Rtf"/>
             </MenuItem>
+            <MenuItem Header="Options" Click="Menuitem_Options"/>
+
+
         </Menu>
         <Grid>
             <Grid.Background>

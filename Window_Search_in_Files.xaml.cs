@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Linq.Expressions;
 using System.Windows.Threading;
 
+
 namespace WPF_PDF_Organizer
 {
     /// <summary>
@@ -61,6 +62,7 @@ namespace WPF_PDF_Organizer
                         string text = System.IO.File.ReadAllText(filename);
                         string[] pages = Split_Pages(text);
                         Regex rgx = new Regex(searchstring, RegexOptions.IgnoreCase);
+                        int limit_n_words_showed = Options.n_char_showed_search / 2;
 
                         for (int i = 0; i < pages.Length; i++)
                         {
@@ -70,8 +72,8 @@ namespace WPF_PDF_Organizer
                                 string pre_string = pages[i].Substring(0, m.Index);
                                 string post_string = pages[i].Substring(m.Index + m.Length);
 
-                                if (pre_string.Length > 200) { pre_string = pre_string.Substring(pre_string.Length - 200); } else { }
-                                if (post_string.Length > 200) { post_string = post_string.Substring(0, 200); }
+                                if (pre_string.Length > limit_n_words_showed) { pre_string = pre_string.Substring(pre_string.Length - limit_n_words_showed); } else { }
+                                if (post_string.Length > limit_n_words_showed) { post_string = post_string.Substring(0, limit_n_words_showed); }
                                 Dispatcher.Invoke(new Action(() =>
                                 {
                                     SearchItem item = new SearchItem();
@@ -254,6 +256,10 @@ namespace WPF_PDF_Organizer
             }
         }
 
-
+        private void Menuitem_Options(object sender, RoutedEventArgs e)
+        {
+            Window_options window = new Window_options();
+            window.Show();
+        }
     }
 }

@@ -1,0 +1,30 @@
+﻿<Window x:Class="WPF_PDF_Organizer.Window_options"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_PDF_Organizer"
+        mc:Ignorable="d"
+        Title="Options" Height="100" Width="300" ResizeMode="NoResize">
+    <DockPanel x:Name="Dockpanel_wrapper">
+        <Grid x:Name="Main_Grid">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0.3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuBarColorKey}}"/>
+            </Grid.Background>
+            <TextBox x:Name="Textbox_n_words_option" Grid.Column="1" Height="23" Margin="5,0" TextWrapping="Wrap" Text="400" VerticalAlignment="Center" PreviewTextInput="Integer_Preview_Input" TextChanged="Textbox_options_changed">
+                <TextBox.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                </TextBox.Background>
+            </TextBox>
+            <Label x:Name="Label_n_words" Content="Characters shown around result" Margin="5,0" VerticalAlignment="Center"/>
+        </Grid>
+    </DockPanel>
+
+</Window>
