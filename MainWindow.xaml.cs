@@ -40,21 +40,16 @@ namespace WPF_PDF_Organizer
             
            
             InitializeComponent();
-
-            
-
-
-
-            
+                        
             if (TextBox_Dir.Text != "")
             {
-                ListDirectory(Tree_View, TextBox_Dir.Text);
+                TreeViewListDirectory(Tree_View, TextBox_Dir.Text);
             }
         }
         #region Treeview
         private static TreeViewItem CreateDirectoryNode(DirectoryInfo directoryInfo)
         {
-            var directoryNode = new TreeViewItem { Header = directoryInfo.Name };
+            TreeViewItem directoryNode = new TreeViewItem { Header = directoryInfo.Name };
             directoryNode.Tag = directoryInfo.FullName;
             foreach (var directory in directoryInfo.GetDirectories())
                 try
@@ -68,37 +63,25 @@ namespace WPF_PDF_Organizer
             return directoryNode;
 
         }
-        private void ListDirectory(TreeView treeView, string path)
+        private void TreeViewListDirectory(TreeView treeView, string path)//it populates the left treeview
         {
             treeView.Items.Clear();
             List_View.Items.Clear();
-            TreeViewItem rootItem;
             DirectoryInfo rootDirectoryInfo = new DirectoryInfo(path);
+
             if (rootDirectoryInfo.Exists)
             {
-                rootItem = new TreeViewItem();
-                //rootItem.(rootDirectoryInfo.Name);
-
                 treeView.Items.Add(CreateDirectoryNode(rootDirectoryInfo));
-
+                TreeViewItem selectedTreeViewItem = (TreeViewItem)treeView.Items[0];
+                Populate_ListView(selectedTreeViewItem);
             }
-        }//it populates the left treeview
+        }
         private void TreeViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             TreeViewItem tree_Item = (TreeViewItem)sender;
             TreeView tree = (TreeView)tree_Item.Parent;
             TreeViewItem selected = (TreeViewItem)tree.SelectedItem;
-            //TreeViewItem selected = tree_Item; 
-            //if (!tree_Item.IsSelected)
-            //{
-            //    if (tree_Item.IsExpanded)
-            //    {
-            //         foreach (TreeViewItem child in tree_Item.Items)
-            //        {
-            //            if (child.IsSelected) { selected = child; }
-            //        }
-            //    }
-            //}
+            
 
             Populate_ListView(selected);
             e.Handled = true;
@@ -179,11 +162,6 @@ namespace WPF_PDF_Organizer
            
 
         }
-        private void ListView_groupbox_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-
-        }
-        
         private void List_View_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ListView_Item item = ((ListView)sender).SelectedItem as ListView_Item;
@@ -237,12 +215,7 @@ namespace WPF_PDF_Organizer
                         }
                     }
                     catch { }
-
-
                 });
-
-
-
             }
         }
 
@@ -321,10 +294,10 @@ namespace WPF_PDF_Organizer
             string metadatastring = $"Metadata: {Environment.NewLine}" ;
             foreach (PdfName key in infoDictionary.KeySet())
             {
-                string keytext = infoDictionary.GetAsString(key).ToUnicodeString();// key.GetValue();//infoDictionary.GetAsString(key);
+                string keytext = infoDictionary.GetAsString(key).ToUnicodeString();
                 if (key == PdfName.CreationDate|key==PdfName.ModDate)
                 {
-                    DateTime date = PdfDate.Decode(keytext);//Convert.ToDateTime(keytext);
+                    DateTime date = PdfDate.Decode(keytext);
                     keytext = date.ToString("dd/MM/yyyy HH:mm:ss");
                 }
                 
@@ -527,18 +500,18 @@ namespace WPF_PDF_Organizer
             
         }
 
-        public void Open_Archive_Directory()
+        public void Open_Archive_Directory(TextBox textbox)
         {
             using var fbd = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = fbd.ShowDialog();
 
             if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
             {
-                TextBox_Dir.Text = fbd.SelectedPath;
+                textbox.Text = fbd.SelectedPath;
             }
-            ListDirectory(Tree_View, TextBox_Dir.Text);
+            TreeViewListDirectory(Tree_View, textbox.Text);
             List_View.Items.Clear();
-            DirectoryInfo nodeDirInfo = new DirectoryInfo(TextBox_Dir.Text);
+            DirectoryInfo nodeDirInfo = new DirectoryInfo(textbox.Text);
 
             foreach (FileInfo file in nodeDirInfo.GetFiles())
             {
@@ -629,7 +602,7 @@ namespace WPF_PDF_Organizer
         # region Control Clicks
         private void TextBox_Dir_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            Open_Archive_Directory();
+            Open_Archive_Directory((TextBox)sender);
         }
         
         #endregion
@@ -742,7 +715,7 @@ namespace WPF_PDF_Organizer
         }
         private void MenuItem_Open_Archive_Directory(object sender, RoutedEventArgs e)
         {
-            Open_Archive_Directory();
+            Open_Archive_Directory(TextBox_Dir);
         }
         
     #endregion
